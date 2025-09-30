@@ -49,11 +49,19 @@ export async function POST(request: NextRequest) {
 
     // Cria a instância
     const instanceData = await evolutionAPI.createInstance(validatedData.instanceName)
+    console.log('[POST /api/evolution/instances] Instância criada:', instanceData)
+    
+    // Aguarda 2 segundos para o QR code ser gerado
+    await new Promise(resolve => setTimeout(resolve, 2000))
     
     // Busca o QR code logo após criar
     let qrCodeData = null
     try {
       qrCodeData = await evolutionAPI.getQRCode(validatedData.instanceName)
+      console.log('[POST /api/evolution/instances] QR Code recebido:', qrCodeData ? 'SIM' : 'NÃO')
+      if (qrCodeData) {
+        console.log('[POST /api/evolution/instances] QR Code estrutura:', JSON.stringify(qrCodeData).substring(0, 200))
+      }
     } catch (error) {
       console.warn('[POST /api/evolution/instances] Erro ao buscar QR code:', error)
       // Não falha se o QR code não estiver disponível ainda

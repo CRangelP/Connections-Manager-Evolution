@@ -51,13 +51,18 @@ export function CreateInstanceDialog() {
   const mutation = useMutation({
     mutationFn: createInstance,
     onSuccess: (response: any) => {
+      console.log('[CreateInstanceDialog] Response completo:', response)
+      console.log('[CreateInstanceDialog] QRCode data:', response?.qrcode)
+      
       queryClient.invalidateQueries({ queryKey: ['instances'] })
       
       // Se tiver QR code, exibe
       if (response?.qrcode && response.qrcode.length > 0 && response.qrcode[0].base64) {
+        console.log('[CreateInstanceDialog] QR Code encontrado, exibindo...')
         setQrCode(response.qrcode[0].base64)
         toast.success('Instância criada! Escaneie o QR Code')
       } else {
+        console.log('[CreateInstanceDialog] QR Code NÃO encontrado na resposta')
         toast.success('Instância criada com sucesso!')
         reset()
         setOpen(false)
