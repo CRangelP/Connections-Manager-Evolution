@@ -1,4 +1,6 @@
-# 🚀 Evolution Dashboard
+# 🚀 Painel Principal
+
+**Versão 1.0.0** 🎉
 
 Dashboard web moderno para gerenciamento de instâncias WhatsApp via **Evolution API** (v2.3.4).
 
@@ -14,16 +16,18 @@ Dashboard web moderno para gerenciamento de instâncias WhatsApp via **Evolution
 
 ## ✨ Funcionalidades
 
-- ✅ Autenticação segura com NextAuth
-- ✅ Listagem de instâncias WhatsApp
-- ✅ Criação de novas instâncias
-- ✅ Visualização de detalhes e status
-- ✅ QR Code para conexão
-- ✅ Deleção de instâncias
-- ✅ Dashboard com estatísticas
-- ✅ Interface responsiva e moderna
-- ✅ Validação de formulários
-- ✅ Tratamento de erros
+### v1.0.0 - Recursos Principais
+- ✅ **Autenticação segura** com NextAuth
+- ✅ **Listagem de instâncias** WhatsApp em tempo real
+- ✅ **Criação de novas instâncias**
+- ✅ **Status de conexão** (Conectada/Desconectada)
+- ✅ **Deleção de instâncias** com confirmação
+- ✅ **Dark Mode** (Light/Dark theme toggle)
+- ✅ **Máscara de telefone** brasileiro (+55 (62) 96899-855)
+- ✅ **Interface responsiva** e moderna
+- ✅ **Validação de formulários** com Zod
+- ✅ **Tratamento de erros** robusto
+- ✅ **Auto-refresh** a cada 30 segundos
 
 ## 🔧 Configuração
 
