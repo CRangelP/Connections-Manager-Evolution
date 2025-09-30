@@ -10,7 +10,7 @@ export function Header() {
   const { data: session } = useSession()
 
   return (
-    <header id="app-header" className="border-b bg-white dark:bg-slate-900 dark:border-slate-700">
+    <header id="app-header" className="border-b bg-white dark:bg-neutral-950 dark:border-neutral-800">
       <div id="header-container" className="container mx-auto px-4 py-4 flex items-center justify-between">
         <div id="header-logo" className="flex items-center gap-6">
           <Link id="header-logo-link" href="/instances" className="text-xl font-bold text-slate-900 dark:text-white">

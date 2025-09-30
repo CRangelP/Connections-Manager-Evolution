@@ -51,7 +51,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div id="login-page-container" className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900 p-4">
+    <div id="login-page-container" className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 dark:from-black dark:to-neutral-950 p-4">
       <Card id="login-card" className="w-full max-w-md">
         <CardHeader id="login-card-header" className="space-y-1">
           <CardTitle id="login-title" className="text-2xl font-bold text-center">
