@@ -25,9 +25,20 @@ export default function DashboardPage() {
 
   const instances = data?.data || []
   const totalInstances = instances.length
+  
+  // Log para debug
+  if (instances.length > 0) {
+    console.log('Dashboard - Total de instâncias:', totalInstances)
+    instances.forEach((i: any) => {
+      const inst = i.instance || i
+      console.log(`Instância: ${inst.instanceName || inst.name}, State: ${inst.state}, Status: ${inst.status}`)
+    })
+  }
+  
   const connectedInstances = instances.filter((i: any) => {
     const inst = i.instance || i
-    return inst.state === 'open' || inst.status === 'open'
+    const state = (inst.state || inst.status || '').toLowerCase()
+    return state === 'open' || state === 'connected'
   }).length
   const disconnectedInstances = totalInstances - connectedInstances
 

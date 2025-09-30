@@ -32,6 +32,11 @@ export default function InstancesPage() {
   })
 
   const instances = data?.data || []
+  
+  // Log para debug - remover depois
+  if (instances.length > 0) {
+    console.log('Estrutura da primeira instância:', instances[0])
+  }
 
   const handleDeleteClick = (instanceName: string) => {
     setSelectedInstance(instanceName)
@@ -41,11 +46,14 @@ export default function InstancesPage() {
   const getStatusBadge = (state: string) => {
     const statusMap: Record<string, { label: string; variant: 'default' | 'destructive' | 'secondary'; icon: any }> = {
       open: { label: 'Conectada', variant: 'default', icon: CheckCircle2 },
+      connected: { label: 'Conectada', variant: 'default', icon: CheckCircle2 },
       close: { label: 'Desconectada', variant: 'destructive', icon: XCircle },
+      closed: { label: 'Desconectada', variant: 'destructive', icon: XCircle },
+      disconnected: { label: 'Desconectada', variant: 'destructive', icon: XCircle },
       connecting: { label: 'Conectando', variant: 'secondary', icon: Clock },
     }
 
-    const status = statusMap[state] || { label: state, variant: 'secondary', icon: Clock }
+    const status = statusMap[state?.toLowerCase()] || { label: state || 'Desconhecido', variant: 'secondary', icon: Clock }
     const Icon = status.icon
 
     return (
