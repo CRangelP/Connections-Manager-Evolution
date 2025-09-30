@@ -31,9 +31,8 @@ class EvolutionAPIClient {
     try {
       const response = await this.client.post('/instance/create', {
         instanceName,
-        token: TOKEN,
-        qrcode: true,
         integration: 'WHATSAPP-BAILEYS',
+        qrcode: true,
       })
       return response.data
     } catch (error) {
