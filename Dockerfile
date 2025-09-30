@@ -13,12 +13,16 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Gerar Prisma Client e preparar banco SQLite
+# Gerar Prisma Client (não fazer db push no build)
 RUN npx prisma generate
-RUN npx prisma db push
+
+# Variáveis necessárias para o build do Next.js
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV SKIP_ENV_VALIDATION=1
+ENV NEXTAUTH_URL=http://localhost:3000
+ENV NEXTAUTH_SECRET=dummy-secret-for-build-only
 
 # Build da aplicação
-ENV NEXT_TELEMETRY_DISABLED=1
 RUN npm run build
 
 # Estágio de produção
