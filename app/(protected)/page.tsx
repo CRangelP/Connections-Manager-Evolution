@@ -183,7 +183,7 @@ export default function InstancesPage() {
                     <Button
                       id={`instance-reconnect-button-${instanceName}`}
                       variant="outline"
-                      className="flex-1 bg-green-700 hover:bg-green-800 text-white border-green-700"
+                      className="flex-1 bg-green-700 hover:bg-green-800 text-white border-green-700 dark:bg-green-700 dark:hover:bg-green-800 dark:border-green-700"
                       onClick={() => handleReconnect(instanceName)}
                     >
                       <RefreshCw id={`instance-reconnect-icon-${instanceName}`} className="mr-2 h-4 w-4" />
