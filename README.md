@@ -1,6 +1,6 @@
 # 🚀 Painel Principal
 
-**Versão 1.0.0** 🎉
+**Versão 1.1.0** ✨
 
 Dashboard web moderno para gerenciamento de instâncias WhatsApp via **Evolution API** (v2.3.4).
 

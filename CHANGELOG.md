@@ -5,6 +5,40 @@ Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [1.1.0] - 2025-09-30
+
+### Adicionado
+- **QR Code automático** ao criar instância
+  - Exibido automaticamente em dialog após criação
+  - Imagem base64 extraída da resposta da API
+  - Interface intuitiva com título dinâmico
+  - Botão "Fechar" para dispensar
+- **Migração para SQLite**
+  - Banco de dados local sem dependências externas
+  - Arquivo `prisma/dev.db` criado automaticamente
+  - Removida necessidade de PostgreSQL/Supabase
+  - Simplifica deployment e configuração
+
+### Alterado
+- **Nome do aplicativo**: "Evolution Dashboard" → "Painel Principal"
+- **Remoção de menu de navegação**: Acesso direto a `/instances`
+- **Dark mode mais escuro**: Background preto (#000000) ao invés de slate-950
+- **Descrições simplificadas**: Textos mais concisos e diretos
+- **Remoção do botão "Ver Detalhes"**: Mantido apenas botão "Deletar"
+- **Badge verde** para status "Conectada" (melhor visibilidade)
+
+### Corrigido
+- **Payload de criação de instância**: Adicionado campo `integration: 'WHATSAPP-BAILEYS'`
+- **Campo token removido**: Token já está no header `apikey`
+- **Extração de telefone**: Corrigido mapeamento de `ownerJid` para telefone formatado
+- **Tratamento de erros**: Logs detalhados com status, message e details
+
+### Removido
+- Pasta `/app/(protected)/dashboard` (não mais necessária)
+- Pasta `/app/(protected)/instances/[instanceName]` (página de detalhes)
+- Campo `DATABASE_URL` do `.env` (SQLite não requer)
+- Logs de debug do QR code (código limpo para produção)
+
 ## [1.0.0] - 2025-09-30
 
 ### 🎉 Lançamento Inicial
