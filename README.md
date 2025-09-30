@@ -1,8 +1,21 @@
-# 🚀 Painel Principal
+# 🚀 Connections Manager Evolution
 
-**Versão 1.5.0** 💬
+[![Version](https://img.shields.io/badge/version-1.5.0-blue.svg)](https://github.com/CRangelP/Connections-Manager-Evolution/releases)
+[![Next.js](https://img.shields.io/badge/Next.js-15-black.svg)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue.svg)](https://www.typescriptlang.org/)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 Dashboard web moderno para gerenciamento de instâncias WhatsApp via **Evolution API** (v2.3.4).
+
+## ✨ Funcionalidades
+
+- 🔐 **Autenticação** com NextAuth.js
+- 📱 **Gerenciamento de Instâncias** (criar, listar, deletar, reconectar)
+- 📲 **QR Code Automático** para pareamento WhatsApp
+- 💬 **Integração Chatwoot** automática
+- 🌓 **Dark Mode** nativo
+- 🐳 **Docker** pronto para produção
+- 🔄 **Stateless** (sem persistência de dados)
 
 ## 📋 Stack Tecnológica
 
@@ -161,6 +174,46 @@ docker stop evolution-dashboard && docker rm evolution-dashboard
 
 **Variáveis Opcionais:**
 - `CHATWOOT_ACCOUNT_ID`, `CHATWOOT_TOKEN`, `CHATWOOT_URL` (integração Chatwoot)
+
+## 🎯 Como Usar
+
+1. **Faça login** com credenciais do `.env` (`ADMIN_EMAIL` / `ADMIN_PASSWORD`)
+2. **Crie instância** clicando em "Nova Instância"
+3. **Escaneie QR Code** com WhatsApp
+4. **Chatwoot configurado** automaticamente ao fechar
+5. **Gerencie instâncias** (reconectar, deletar)
+
+## 🤝 Contribuindo
+
+Contribuições são bem-vindas! Por favor:
+
+1. Fork o projeto
+2. Crie uma branch (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
+
+## 📝 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+## 👤 Autor
+
+**Cleber Rangel**
+
+- GitHub: [@CRangelP](https://github.com/CRangelP)
+- Projeto: [Connections Manager Evolution](https://github.com/CRangelP/Connections-Manager-Evolution)
+
+## 🙏 Agradecimentos
+
+- [Evolution API](https://evolution-api.com/) - API WhatsApp
+- [Next.js](https://nextjs.org/) - Framework React
+- [shadcn/ui](https://ui.shadcn.com/) - Componentes UI
+- [Chatwoot](https://www.chatwoot.com/) - Plataforma de atendimento
+
+---
+
+⭐ **Se este projeto foi útil, considere dar uma estrela!** ⭐
 
 ## 📁 Estrutura do Projeto
 
