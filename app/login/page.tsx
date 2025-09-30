@@ -40,7 +40,7 @@ export default function LoginPage() {
       if (result?.error) {
         setError('Credenciais inválidas')
       } else {
-        router.push('/instances')
+        router.push('/')
         router.refresh()
       }
     } catch {
