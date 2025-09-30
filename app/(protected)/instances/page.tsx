@@ -9,8 +9,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { CreateInstanceDialog } from '@/components/forms/create-instance-dialog'
 import { DeleteInstanceDialog } from '@/components/forms/delete-instance-dialog'
-import { Eye, Trash2, CheckCircle2, XCircle, Clock } from 'lucide-react'
-import Link from 'next/link'
+import { Trash2, CheckCircle2, XCircle, Clock } from 'lucide-react'
 
 async function fetchInstances() {
   const res = await fetch('/api/evolution/instances')
@@ -72,7 +71,7 @@ export default function InstancesPage() {
             Conexões WhatsApp
           </h1>
           <p id="instances-description" className="text-slate-600 mt-2">
-            Gerencie suas conexões da Evolution API
+            Gerencie suas instâncias
           </p>
         </div>
         <CreateInstanceDialog />
@@ -148,23 +147,14 @@ export default function InstancesPage() {
                   </div>
 
                   <div id={`instance-actions-${instanceName}`} className="flex gap-2">
-                    <Link
-                      id={`instance-view-link-${instanceName}`}
-                      href={`/instances/${instanceName}`}
-                      className="flex-1"
-                    >
-                      <Button id={`instance-view-button-${instanceName}`} variant="outline" className="w-full">
-                        <Eye id={`instance-view-icon-${instanceName}`} className="mr-2 h-4 w-4" />
-                        Ver Detalhes
-                      </Button>
-                    </Link>
                     <Button
                       id={`instance-delete-button-${instanceName}`}
-                      variant="outline"
-                      size="icon"
+                      variant="destructive"
+                      className="w-full"
                       onClick={() => handleDeleteClick(instanceName)}
                     >
-                      <Trash2 id={`instance-delete-icon-${instanceName}`} className="h-4 w-4 text-red-600" />
+                      <Trash2 id={`instance-delete-icon-${instanceName}`} className="mr-2 h-4 w-4" />
+                      Deletar
                     </Button>
                   </div>
                 </CardContent>
