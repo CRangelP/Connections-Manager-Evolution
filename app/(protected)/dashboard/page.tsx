@@ -25,7 +25,10 @@ export default function DashboardPage() {
 
   const instances = data?.data || []
   const totalInstances = instances.length
-  const connectedInstances = instances.filter((i: any) => i.state === 'open').length
+  const connectedInstances = instances.filter((i: any) => {
+    const inst = i.instance || i
+    return inst.state === 'open' || inst.status === 'open'
+  }).length
   const disconnectedInstances = totalInstances - connectedInstances
 
   return (

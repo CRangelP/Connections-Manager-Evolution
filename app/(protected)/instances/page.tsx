@@ -103,54 +103,60 @@ export default function InstancesPage() {
         </Card>
       ) : (
         <div id="instances-grid" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {instances.map((instance: any) => (
-            <Card key={instance.instance.instanceName} id={`instance-card-${instance.instance.instanceName}`}>
-              <CardHeader id={`instance-header-${instance.instance.instanceName}`}>
-                <div id={`instance-header-content-${instance.instance.instanceName}`} className="flex items-start justify-between">
-                  <div id={`instance-header-info-${instance.instance.instanceName}`}>
-                    <CardTitle id={`instance-title-${instance.instance.instanceName}`} className="text-lg">
-                      {instance.instance.instanceName}
-                    </CardTitle>
-                    <CardDescription id={`instance-desc-${instance.instance.instanceName}`} className="mt-1">
-                      {instance.instance.instanceId || 'N/A'}
-                    </CardDescription>
+          {instances.map((instance: any) => {
+            // Adapta estrutura da API - pode ser instance.instance ou diretamente instance
+            const inst = instance.instance || instance
+            const instanceName = inst.instanceName || inst.name || 'unknown'
+            
+            return (
+              <Card key={instanceName} id={`instance-card-${instanceName}`}>
+                <CardHeader id={`instance-header-${instanceName}`}>
+                  <div id={`instance-header-content-${instanceName}`} className="flex items-start justify-between">
+                    <div id={`instance-header-info-${instanceName}`}>
+                      <CardTitle id={`instance-title-${instanceName}`} className="text-lg">
+                        {instanceName}
+                      </CardTitle>
+                      <CardDescription id={`instance-desc-${instanceName}`} className="mt-1">
+                        {inst.instanceId || inst.id || 'N/A'}
+                      </CardDescription>
+                    </div>
+                    {getStatusBadge(inst.state || inst.status || 'close')}
                   </div>
-                  {getStatusBadge(instance.instance.state)}
-                </div>
-              </CardHeader>
-              <CardContent id={`instance-content-${instance.instance.instanceName}`}>
-                <div id={`instance-details-${instance.instance.instanceName}`} className="space-y-2 text-sm text-slate-600 mb-4">
-                  <div id={`instance-owner-${instance.instance.instanceName}`}>
-                    <strong>Owner:</strong> {instance.instance.owner || 'N/A'}
+                </CardHeader>
+                <CardContent id={`instance-content-${instanceName}`}>
+                  <div id={`instance-details-${instanceName}`} className="space-y-2 text-sm text-slate-600 mb-4">
+                    <div id={`instance-owner-${instanceName}`}>
+                      <strong>Owner:</strong> {inst.owner || 'N/A'}
+                    </div>
+                    <div id={`instance-number-${instanceName}`}>
+                      <strong>Número:</strong> {inst.profilePictureUrl || inst.number || 'N/A'}
+                    </div>
                   </div>
-                  <div id={`instance-number-${instance.instance.instanceName}`}>
-                    <strong>Número:</strong> {instance.instance.profilePictureUrl || 'N/A'}
-                  </div>
-                </div>
 
-                <div id={`instance-actions-${instance.instance.instanceName}`} className="flex gap-2">
-                  <Link
-                    id={`instance-view-link-${instance.instance.instanceName}`}
-                    href={`/instances/${instance.instance.instanceName}`}
-                    className="flex-1"
-                  >
-                    <Button id={`instance-view-button-${instance.instance.instanceName}`} variant="outline" className="w-full">
-                      <Eye id={`instance-view-icon-${instance.instance.instanceName}`} className="mr-2 h-4 w-4" />
-                      Ver Detalhes
+                  <div id={`instance-actions-${instanceName}`} className="flex gap-2">
+                    <Link
+                      id={`instance-view-link-${instanceName}`}
+                      href={`/instances/${instanceName}`}
+                      className="flex-1"
+                    >
+                      <Button id={`instance-view-button-${instanceName}`} variant="outline" className="w-full">
+                        <Eye id={`instance-view-icon-${instanceName}`} className="mr-2 h-4 w-4" />
+                        Ver Detalhes
+                      </Button>
+                    </Link>
+                    <Button
+                      id={`instance-delete-button-${instanceName}`}
+                      variant="outline"
+                      size="icon"
+                      onClick={() => handleDeleteClick(instanceName)}
+                    >
+                      <Trash2 id={`instance-delete-icon-${instanceName}`} className="h-4 w-4 text-red-600" />
                     </Button>
-                  </Link>
-                  <Button
-                    id={`instance-delete-button-${instance.instance.instanceName}`}
-                    variant="outline"
-                    size="icon"
-                    onClick={() => handleDeleteClick(instance.instance.instanceName)}
-                  >
-                    <Trash2 id={`instance-delete-icon-${instance.instance.instanceName}`} className="h-4 w-4 text-red-600" />
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )
+          })}
         </div>
       )}
 
