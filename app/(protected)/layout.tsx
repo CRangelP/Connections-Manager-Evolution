@@ -15,7 +15,7 @@ export default async function ProtectedLayout({
   }
 
   return (
-    <SessionProvider session={session}>
+    <SessionProvider>
       <div id="protected-layout" className="min-h-screen bg-slate-50">
         <Header />
         <main id="protected-main" className="container mx-auto px-4 py-8">
