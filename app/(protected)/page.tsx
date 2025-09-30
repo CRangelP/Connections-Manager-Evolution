@@ -13,6 +13,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Trash2, CheckCircle2, XCircle, Clock, RefreshCw, type LucideIcon } from 'lucide-react'
 import { formatPhoneBrazil } from '@/lib/format-phone'
 import { toast } from 'sonner'
+import { configureChatwoot } from '@/lib/chatwoot-helper'
 
 interface Instance {
   name: string
@@ -234,16 +235,7 @@ export default function InstancesPage() {
                 onClick={async () => {
                   // Configura Chatwoot antes de fechar
                   if (reconnectInstanceName) {
-                    try {
-                      toast.info('Configurando Chatwoot...')
-                      await fetch(`/api/chatwoot/set/${reconnectInstanceName}`, {
-                        method: 'POST',
-                      })
-                      toast.success('Chatwoot configurado com sucesso!')
-                    } catch (error) {
-                      console.error('Erro ao configurar Chatwoot:', error)
-                      toast.error('Erro ao configurar Chatwoot')
-                    }
+                    await configureChatwoot(reconnectInstanceName)
                   }
                   
                   setReconnectDialogOpen(false)

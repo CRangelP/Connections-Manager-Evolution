@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -18,6 +18,7 @@ import {
 } from '@/components/ui/dialog'
 import { toast } from 'sonner'
 import { Plus, Loader2 } from 'lucide-react'
+import { configureChatwoot } from '@/lib/chatwoot-helper'
 
 async function createInstance(data: CreateInstanceInput) {
   const res = await fetch('/api/evolution/instances', {
@@ -89,16 +90,7 @@ export function CreateInstanceDialog() {
   const handleClose = async () => {
     // Se houver instância criada, configura o Chatwoot
     if (instanceName) {
-      try {
-        toast.info('Configurando Chatwoot...')
-        await fetch(`/api/chatwoot/set/${instanceName}`, {
-          method: 'POST',
-        })
-        toast.success('Chatwoot configurado com sucesso!')
-      } catch (error) {
-        console.error('Erro ao configurar Chatwoot:', error)
-        toast.error('Erro ao configurar Chatwoot')
-      }
+      await configureChatwoot(instanceName)
     }
     
     setOpen(false)
