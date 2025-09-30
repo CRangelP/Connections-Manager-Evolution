@@ -46,8 +46,8 @@ NEXTAUTH_SECRET=your_secret_here
 DATABASE_URL="postgresql://user:password@host:5432/database?schema=public"
 
 # Evolution API
-EVOLUTION_API_BASE_URL=https://api.primestratus.com.br
-EVOLUTION_API_TOKEN=246489844F241B926811E732A5857
+EVOLUTION_API_BASE_URL=https://sub.dominio.com.br
+EVOLUTION_API_TOKEN=2464890515844F241B926811E732A5857
 EVOLUTION_API_TIMEOUT_MS=15000
 
 # Admin User

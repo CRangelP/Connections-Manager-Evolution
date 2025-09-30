@@ -59,10 +59,10 @@ export default function InstancesPage() {
     <div id="instances-page" className="space-y-8">
       <div id="instances-header" className="flex items-center justify-between">
         <div id="instances-header-text">
-          <h1 id="instances-title" className="text-3xl font-bold text-slate-900">
+          <h1 id="instances-title" className="text-3xl font-bold text-slate-900 dark:text-white">
             Conexões WhatsApp
           </h1>
-          <p id="instances-description" className="text-slate-600 mt-2">
+          <p id="instances-description" className="text-slate-600 dark:text-slate-400 mt-2">
             Gerencie suas instâncias
           </p>
         </div>
@@ -121,7 +121,7 @@ export default function InstancesPage() {
                   </div>
                 </CardHeader>
                 <CardContent id={`instance-content-${instanceName}`}>
-                  <div id={`instance-details-${instanceName}`} className="space-y-2 text-sm text-slate-600 mb-4">
+                  <div id={`instance-details-${instanceName}`} className="space-y-2 text-sm text-slate-600 dark:text-slate-400 mb-4">
                     <div id={`instance-owner-${instanceName}`}>
                       <strong>Owner:</strong> {owner}
                     </div>
