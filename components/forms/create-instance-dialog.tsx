@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -39,6 +39,14 @@ export function CreateInstanceDialog() {
   const [qrCode, setQrCode] = useState<string | null>(null)
   const queryClient = useQueryClient()
 
+  // Log quando qrCode muda
+  useEffect(() => {
+    console.log('[CreateInstanceDialog] Estado qrCode mudou:', qrCode ? 'TEM QR CODE' : 'SEM QR CODE')
+    if (qrCode) {
+      console.log('[CreateInstanceDialog] QR Code no estado:', qrCode.substring(0, 50))
+    }
+  }, [qrCode])
+
   const {
     register,
     handleSubmit,
@@ -59,10 +67,14 @@ export function CreateInstanceDialog() {
       // Se tiver QR code, exibe
       if (response?.qrcode && response.qrcode.length > 0 && response.qrcode[0].base64) {
         console.log('[CreateInstanceDialog] QR Code encontrado, exibindo...')
-        setQrCode(response.qrcode[0].base64)
+        const qrCodeBase64 = response.qrcode[0].base64
+        console.log('[CreateInstanceDialog] Base64 length:', qrCodeBase64?.length)
+        console.log('[CreateInstanceDialog] Base64 preview:', qrCodeBase64?.substring(0, 50))
+        setQrCode(qrCodeBase64)
         toast.success('Instância criada! Escaneie o QR Code')
       } else {
         console.log('[CreateInstanceDialog] QR Code NÃO encontrado na resposta')
+        console.log('[CreateInstanceDialog] Estrutura qrcode:', response?.qrcode)
         toast.success('Instância criada com sucesso!')
         reset()
         setOpen(false)
