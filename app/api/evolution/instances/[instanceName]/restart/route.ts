@@ -16,6 +16,9 @@ export async function POST(
     const { instanceName } = params
     const data = await evolutionAPI.restartInstance(instanceName)
     
+    console.log('[POST /restart] Data recebida:', data)
+    console.log('[POST /restart] Estrutura:', JSON.stringify(data).substring(0, 200))
+    
     return NextResponse.json({ data }, { status: 200 })
   } catch (error) {
     console.error('[POST /api/evolution/instances/[instanceName]/restart]', error)
