@@ -95,19 +95,32 @@ Acesse: [http://localhost:3000](http://localhost:3000)
 - Docker 20.10+
 - Docker Compose 2.0+
 
+### Configuração
+
+1. **Copie o arquivo de ambiente:**
+```bash
+cp .env.docker.example .env
+```
+
+2. **Configure as variáveis obrigatórias:**
+   - `NEXTAUTH_SECRET` (mínimo 32 caracteres)
+   - `EVOLUTION_API_BASE_URL`
+   - `EVOLUTION_API_TOKEN`
+   - `CHATWOOT_*` (opcional, para integração Chatwoot)
+
 ### Build e Run com Docker Compose
 
 ```bash
 # Build e iniciar em background
 docker-compose up -d --build
 
-# Ver logs
+# Ver logs em tempo real
 docker-compose logs -f app
 
-# Parar
+# Parar serviços
 docker-compose down
 
-# Parar e remover volumes (CUIDADO: apaga banco de dados)
+# Parar e remover volumes (⚠️ CUIDADO: apaga banco de dados)
 docker-compose down -v
 ```
 
@@ -125,18 +138,35 @@ docker run -d \
   -v evolution-db:/app/prisma \
   evolution-dashboard:1.5.0
 
-# Ver logs
+# Ver logs em tempo real
 docker logs -f evolution-dashboard
 
-# Parar e remover
+# Parar e remover container
 docker stop evolution-dashboard && docker rm evolution-dashboard
+
+# Remover volume (⚠️ apaga banco de dados)
+docker volume rm evolution-db
 ```
 
-**Observações Docker:**
-- O banco SQLite é persistido em volume (`sqlite_data`)
-- Variáveis de ambiente devem estar no `.env`
-- Porta padrão: `3000`
-- Node.js 20 Alpine (imagem leve)
+### Observações Importantes
+
+**Banco de Dados:**
+- SQLite persistido em volume Docker (`sqlite_data`)
+- Criado automaticamente no primeiro boot
+- Usuário admin seed executado automaticamente
+
+**Segurança:**
+- Container roda com usuário não-root (`nextjs:nodejs`)
+- Imagem Alpine Linux (menor superfície de ataque)
+- Apenas porta 3000 exposta
+
+**Variáveis de Ambiente Obrigatórias:**
+- `NEXTAUTH_URL` e `NEXTAUTH_SECRET`
+- `EVOLUTION_API_BASE_URL` e `EVOLUTION_API_TOKEN`
+- `ADMIN_EMAIL` e `ADMIN_PASSWORD`
+
+**Variáveis Opcionais:**
+- `CHATWOOT_ACCOUNT_ID`, `CHATWOOT_TOKEN`, `CHATWOOT_URL` (integração Chatwoot)
 
 ## 📁 Estrutura do Projeto
 

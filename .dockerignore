@@ -1,10 +1,38 @@
+# Docker
 Dockerfile
 .dockerignore
+docker-compose.yml
+
+# Dependencies
 node_modules
 npm-debug.log
-README.md
+package-lock.json
+
+# Next.js
 .next
+.turbo
+
+# Git
 .git
 .gitignore
+
+# Docs
+README.md
+CHANGELOG.md
+docs
+
+# Environment (será configurado no runtime)
 .env*
 !.env.example
+
+# SQLite (será criado no runtime)
+prisma/*.db
+prisma/*.db-journal
+
+# IDE
+.vscode
+.idea
+
+# OS
+.DS_Store
+Thumbs.db

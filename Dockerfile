@@ -28,10 +28,11 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
+# Criar usuário não-root para segurança
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 nextjs
 
-# Criar diretório para banco de dados SQLite
+# Criar diretório para banco de dados SQLite com permissões corretas
 RUN mkdir -p /app/prisma && chown -R nextjs:nodejs /app/prisma
 
 # Copiar arquivos necessários
