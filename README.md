@@ -1,36 +1,236 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 Evolution Dashboard
 
-## Getting Started
+Dashboard web moderno para gerenciamento de instâncias WhatsApp via **Evolution API** (v2.3.4).
 
-First, run the development server:
+## 📋 Stack Tecnológica
+
+- **Framework**: Next.js 15 (App Router) + TypeScript
+- **Autenticação**: NextAuth.js (Credentials Provider)
+- **Banco de Dados**: PostgreSQL (Supabase) + Prisma ORM
+- **UI**: TailwindCSS + shadcn/ui
+- **Formulários**: React Hook Form + Zod
+- **Estado**: TanStack Query (React Query)
+- **Deploy**: Docker + Docker Compose
+
+## ✨ Funcionalidades
+
+- ✅ Autenticação segura com NextAuth
+- ✅ Listagem de instâncias WhatsApp
+- ✅ Criação de novas instâncias
+- ✅ Visualização de detalhes e status
+- ✅ QR Code para conexão
+- ✅ Deleção de instâncias
+- ✅ Dashboard com estatísticas
+- ✅ Interface responsiva e moderna
+- ✅ Validação de formulários
+- ✅ Tratamento de erros
+
+## 🔧 Configuração
+
+### 1. Variáveis de Ambiente
+
+Copie o arquivo `.env.example` para `.env` e configure:
+
+```bash
+cp .env.example .env
+```
+
+Edite o `.env` com suas credenciais:
+
+```env
+# NextAuth
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your_secret_here
+
+# Database (Supabase)
+DATABASE_URL="postgresql://user:password@host:5432/database?schema=public"
+
+# Evolution API
+EVOLUTION_API_BASE_URL=https://api.primestratus.com.br
+EVOLUTION_API_TOKEN=246489844F241B926811E732A5857
+EVOLUTION_API_TIMEOUT_MS=15000
+
+# Admin User
+ADMIN_EMAIL=admin@evolutiondash.com
+ADMIN_PASSWORD=Admin@123
+```
+
+### 2. Instalação
+
+```bash
+npm install
+```
+
+### 3. Configurar Banco de Dados
+
+```bash
+# Gerar Prisma Client
+npm run prisma:generate
+
+# Push schema para o banco
+npm run prisma:push
+
+# Criar usuário admin
+npm run prisma:seed
+```
+
+### 4. Executar em Desenvolvimento
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Acesse: [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**Credenciais padrão:**
+- Email: `admin@evolutiondash.com`
+- Senha: `Admin@123`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🐳 Docker
 
-## Learn More
+### Build e Run com Docker Compose
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+# Build e iniciar
+docker-compose up --build
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Parar
+docker-compose down
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Build manual
 
-## Deploy on Vercel
+```bash
+# Build da imagem
+docker build -t evolution-dashboard .
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Executar
+docker run -p 3000:3000 --env-file .env evolution-dashboard
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📁 Estrutura do Projeto
+
+```
+├── app/
+│   ├── (protected)/          # Rotas protegidas
+│   │   ├── dashboard/        # Dashboard principal
+│   │   └── instances/        # Gerenciamento de instâncias
+│   ├── api/
+│   │   ├── auth/            # NextAuth routes
+│   │   └── evolution/       # Proxy para Evolution API
+│   ├── login/               # Página de login
+│   └── layout.tsx           # Layout raiz
+├── components/
+│   ├── forms/               # Formulários e dialogs
+│   ├── layout/              # Componentes de layout
+│   └── ui/                  # shadcn/ui components
+├── lib/
+│   ├── auth.ts              # Configuração NextAuth
+│   ├── prisma.ts            # Cliente Prisma
+│   ├── evolution-client.ts  # Cliente Evolution API
+│   ├── zod-schemas.ts       # Schemas de validação
+│   └── query-provider.tsx   # React Query Provider
+├── prisma/
+│   ├── schema.prisma        # Schema do banco
+│   └── seed.ts              # Seed do usuário admin
+├── types/                   # TypeScript types
+├── .env.example             # Exemplo de variáveis
+├── Dockerfile               # Docker config
+├── docker-compose.yml       # Docker Compose
+└── middleware.ts            # Middleware de autenticação
+```
+
+## 🔒 Segurança
+
+- ✅ Tokens da Evolution API **nunca** expostos no cliente
+- ✅ Todas as chamadas via **Route Handlers** server-side
+- ✅ Validação de inputs com **Zod** (client + server)
+- ✅ Sessões JWT com **NextAuth**
+- ✅ Middleware para proteção de rotas
+- ✅ Senhas hasheadas com **bcrypt**
+
+## 🛠️ Scripts Disponíveis
+
+```bash
+# Desenvolvimento
+npm run dev
+
+# Build de produção
+npm run build
+
+# Iniciar produção
+npm run start
+
+# Lint
+npm run lint
+
+# Format
+npm run format
+
+# Prisma
+npm run prisma:generate  # Gerar client
+npm run prisma:push      # Push schema
+npm run prisma:studio    # Abrir Prisma Studio
+npm run prisma:seed      # Executar seed
+```
+
+## 📡 API Evolution
+
+O projeto usa a **Evolution API v2.3.4** para gerenciamento de instâncias WhatsApp.
+
+**Endpoints utilizados:**
+- `GET /instance/fetchInstances` - Listar instâncias
+- `POST /instance/create` - Criar instância
+- `GET /instance/connectionState/:name` - Status da instância
+- `DELETE /instance/delete/:name` - Deletar instância
+- `GET /instance/connect/:name` - Obter QR Code
+
+## 🌐 Deploy
+
+### Opção 1: Vercel (Recomendado)
+
+1. Faça push do código para GitHub
+2. Importe o projeto no Vercel
+3. Configure as variáveis de ambiente
+4. Deploy automático!
+
+**Importante**: Configure o `DATABASE_URL` do Supabase nas variáveis de ambiente da Vercel.
+
+### Opção 2: Docker
+
+Use o `Dockerfile` e `docker-compose.yml` incluídos para deploy em qualquer servidor com Docker.
+
+## 🔄 Alternar SQLite → PostgreSQL
+
+O projeto está configurado para PostgreSQL (Supabase). Para usar SQLite localmente:
+
+1. Altere no `prisma/schema.prisma`:
+```prisma
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+```
+
+2. Atualize no `.env`:
+```env
+DATABASE_URL="file:./dev.db"
+```
+
+3. Execute:
+```bash
+npm run prisma:push
+npm run prisma:seed
+```
+
+## 📝 Licença
+
+MIT
+
+## 🤝 Contribuições
+
+Contribuições são bem-vindas! Sinta-se à vontade para abrir issues e pull requests.
+
+---
+
+**Desenvolvido com ❤️ usando Next.js e Evolution API**
