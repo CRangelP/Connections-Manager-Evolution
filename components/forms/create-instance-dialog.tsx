@@ -39,13 +39,6 @@ export function CreateInstanceDialog() {
   const [qrCode, setQrCode] = useState<string | null>(null)
   const queryClient = useQueryClient()
 
-  // Log quando qrCode muda
-  useEffect(() => {
-    console.log('[CreateInstanceDialog] Estado qrCode mudou:', qrCode ? 'TEM QR CODE' : 'SEM QR CODE')
-    if (qrCode) {
-      console.log('[CreateInstanceDialog] QR Code no estado:', qrCode.substring(0, 50))
-    }
-  }, [qrCode])
 
   const {
     register,
@@ -59,22 +52,13 @@ export function CreateInstanceDialog() {
   const mutation = useMutation({
     mutationFn: createInstance,
     onSuccess: (response: any) => {
-      console.log('[CreateInstanceDialog] Response completo:', response)
-      console.log('[CreateInstanceDialog] QRCode data:', response?.qrcode)
-      
       queryClient.invalidateQueries({ queryKey: ['instances'] })
       
       // Se tiver QR code, exibe
       if (response?.qrcode && response.qrcode.length > 0 && response.qrcode[0].base64) {
-        console.log('[CreateInstanceDialog] QR Code encontrado, exibindo...')
-        const qrCodeBase64 = response.qrcode[0].base64
-        console.log('[CreateInstanceDialog] Base64 length:', qrCodeBase64?.length)
-        console.log('[CreateInstanceDialog] Base64 preview:', qrCodeBase64?.substring(0, 50))
-        setQrCode(qrCodeBase64)
+        setQrCode(response.qrcode[0].base64)
         toast.success('Instância criada! Escaneie o QR Code')
       } else {
-        console.log('[CreateInstanceDialog] QR Code NÃO encontrado na resposta')
-        console.log('[CreateInstanceDialog] Estrutura qrcode:', response?.qrcode)
         toast.success('Instância criada com sucesso!')
         reset()
         setOpen(false)
@@ -125,14 +109,11 @@ export function CreateInstanceDialog() {
 
         {qrCode ? (
           <div id="qrcode-container" className="flex flex-col items-center justify-center gap-4 py-4">
-            <p className="text-sm text-green-600 mb-2">QR Code carregado!</p>
             <img 
               id="qrcode-image"
               src={qrCode} 
               alt="QR Code" 
               className="w-64 h-64 border-4 border-slate-200 rounded-lg"
-              onLoad={() => console.log('[QR Code IMG] Imagem carregada com sucesso!')}
-              onError={() => console.error('[QR Code IMG] Erro ao carregar imagem')}
             />
             <Button
               id="qrcode-close-button"
