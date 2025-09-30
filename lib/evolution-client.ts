@@ -69,11 +69,21 @@ class EvolutionAPIClient {
 
   private handleError(error: unknown): never {
     if (axios.isAxiosError(error)) {
-      const axiosError = error as AxiosError<{ message?: string; error?: string }>
+      const axiosError = error as AxiosError<{ message?: string; error?: string; response?: unknown }>
       const message = axiosError.response?.data?.message || axiosError.response?.data?.error || axiosError.message
       const status = axiosError.response?.status || 500
+      const details = axiosError.response?.data
       
-      throw new Error(JSON.stringify({ message, status }))
+      // Log completo para debug
+      console.error('[Evolution API Error]', {
+        status,
+        message,
+        details,
+        url: axiosError.config?.url,
+        method: axiosError.config?.method,
+      })
+      
+      throw new Error(JSON.stringify({ message, status, details }))
     }
     throw error
   }

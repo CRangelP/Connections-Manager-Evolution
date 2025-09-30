@@ -63,7 +63,10 @@ export async function POST(request: NextRequest) {
       try {
         const parsedError = JSON.parse(error.message)
         return NextResponse.json(
-          { message: parsedError.message || 'Erro ao criar instância' },
+          { 
+            message: parsedError.message || 'Erro ao criar instância',
+            details: parsedError.details
+          },
           { status: parsedError.status || 500 }
         )
       } catch {

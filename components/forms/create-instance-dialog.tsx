@@ -56,7 +56,14 @@ export function CreateInstanceDialog() {
       setOpen(false)
     },
     onError: (error: Error) => {
-      toast.error(error.message || 'Erro ao criar instância')
+      try {
+        const errorData = JSON.parse(error.message)
+        const details = errorData.details
+        const errorMsg = details?.message || errorData.message || 'Erro ao criar instância'
+        toast.error(errorMsg)
+      } catch {
+        toast.error(error.message || 'Erro ao criar instância')
+      }
     },
   })
 
