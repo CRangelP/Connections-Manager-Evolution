@@ -5,6 +5,23 @@ Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [1.4.0] - 2025-09-30
+
+### Removido
+- **Pasta vazia** `app/(protected)/instances/` (não mais necessária)
+- **Endpoint obsoleto** `/api/evolution/instances/[instanceName]/qrcode` (QR code agora vem na criação)
+- **Logs de debug** removidos para produção
+
+### Alterado
+- **README atualizado** com estrutura correta do projeto
+- **Estrutura de pastas** refletindo arquitetura atual
+- **Documentação Docker** com versão 1.4.0
+
+### Melhorado
+- **Código mais limpo** sem arquivos não utilizados
+- **Documentação precisa** da estrutura de rotas
+- **Build otimizado** sem dependências obsoletas
+
 ## [1.3.0] - 2025-09-30
 
 ### Adicionado

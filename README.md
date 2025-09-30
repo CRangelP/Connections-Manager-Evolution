@@ -1,6 +1,6 @@
 # 🚀 Painel Principal
 
-**Versão 1.3.0** 🔄
+**Versão 1.4.0** 🧹
 
 Dashboard web moderno para gerenciamento de instâncias WhatsApp via **Evolution API** (v2.3.4).
 
@@ -115,7 +115,7 @@ docker-compose down -v
 
 ```bash
 # Build da imagem
-docker build -t evolution-dashboard:1.3.0 .
+docker build -t evolution-dashboard:1.4.0 .
 
 # Executar (necessário .env configurado)
 docker run -d \
@@ -123,7 +123,7 @@ docker run -d \
   --name evolution-dashboard \
   --env-file .env \
   -v evolution-db:/app/prisma \
-  evolution-dashboard:1.3.0
+  evolution-dashboard:1.4.0
 
 # Ver logs
 docker logs -f evolution-dashboard
@@ -142,26 +142,35 @@ docker stop evolution-dashboard && docker rm evolution-dashboard
 
 ```
 ├── app/
-│   ├── (protected)/          # Rotas protegidas
-│   │   ├── dashboard/        # Dashboard principal
-│   │   └── instances/        # Gerenciamento de instâncias
+│   ├── (protected)/          # Rotas protegidas (autenticadas)
+│   │   └── page.tsx         # Dashboard de instâncias (rota raiz /)
 │   ├── api/
 │   │   ├── auth/            # NextAuth routes
 │   │   └── evolution/       # Proxy para Evolution API
+│   │       └── instances/   # CRUD de instâncias
+│   │           ├── route.ts                    # GET (listar) e POST (criar)
+│   │           └── [instanceName]/
+│   │               ├── route.ts                # DELETE (deletar)
+│   │               └── restart/route.ts        # POST (reconectar)
 │   ├── login/               # Página de login
-│   └── layout.tsx           # Layout raiz
+│   ├── layout.tsx           # Layout raiz
+│   └── providers.tsx        # Providers (session, theme, query)
 ├── components/
 │   ├── forms/               # Formulários e dialogs
-│   ├── layout/              # Componentes de layout
+│   │   ├── create-instance-dialog.tsx
+│   │   └── delete-instance-dialog.tsx
+│   ├── layout/              # Header e componentes de layout
 │   └── ui/                  # shadcn/ui components
 ├── lib/
 │   ├── auth.ts              # Configuração NextAuth
 │   ├── prisma.ts            # Cliente Prisma
-│   ├── evolution-client.ts  # Cliente Evolution API
-│   ├── zod-schemas.ts       # Schemas de validação
+│   ├── evolution-client.ts  # Cliente Evolution API (axios)
+│   ├── zod-schemas.ts       # Schemas de validação (Zod)
+│   ├── format-phone.ts      # Formatação telefone brasileiro
 │   └── query-provider.tsx   # React Query Provider
 ├── prisma/
-│   ├── schema.prisma        # Schema do banco
+│   ├── schema.prisma        # Schema do banco (SQLite)
+│   ├── dev.db               # Banco de dados SQLite
 │   └── seed.ts              # Seed do usuário admin
 ├── types/                   # TypeScript types
 ├── .env.example             # Exemplo de variáveis
