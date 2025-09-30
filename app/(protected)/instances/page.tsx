@@ -127,9 +127,6 @@ export default function InstancesPage() {
                       <CardTitle id={`instance-title-${instanceName}`} className="text-lg">
                         {instanceName}
                       </CardTitle>
-                      <CardDescription id={`instance-desc-${instanceName}`} className="mt-1 text-xs">
-                        {inst.serverUrl || 'Evolution API'}
-                      </CardDescription>
                     </div>
                     {getStatusBadge(state)}
                   </div>
@@ -139,11 +136,9 @@ export default function InstancesPage() {
                     <div id={`instance-owner-${instanceName}`}>
                       <strong>Owner:</strong> {inst.owner || inst.profileName || 'N/A'}
                     </div>
-                    {inst.profilePictureUrl && (
-                      <div id={`instance-picture-${instanceName}`}>
-                        <strong>Profile:</strong> Configurado
-                      </div>
-                    )}
+                    <div id={`instance-phone-${instanceName}`}>
+                      <strong>Phone:</strong> {connectionState.instance?.wuid || inst.number || inst.phone || 'N/A'}
+                    </div>
                   </div>
 
                   <div id={`instance-actions-${instanceName}`} className="flex gap-2">
