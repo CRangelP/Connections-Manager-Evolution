@@ -119,9 +119,6 @@ docker-compose logs -f app
 
 # Parar serviços
 docker-compose down
-
-# Parar e remover volumes (⚠️ CUIDADO: apaga banco de dados)
-docker-compose down -v
 ```
 
 ### Build manual
@@ -135,7 +132,6 @@ docker run -d \
   -p 3000:3000 \
   --name evolution-dashboard \
   --env-file .env \
-  -v evolution-db:/app/prisma \
   evolution-dashboard:1.5.0
 
 # Ver logs em tempo real
@@ -143,17 +139,15 @@ docker logs -f evolution-dashboard
 
 # Parar e remover container
 docker stop evolution-dashboard && docker rm evolution-dashboard
-
-# Remover volume (⚠️ apaga banco de dados)
-docker volume rm evolution-db
 ```
 
 ### Observações Importantes
 
 **Banco de Dados:**
-- SQLite persistido em volume Docker (`sqlite_data`)
-- Criado automaticamente no primeiro boot
-- Usuário admin seed executado automaticamente
+- SQLite **não persistido** (recriado a cada restart)
+- Apenas armazena usuário admin (credenciais do `.env`)
+- Seed executado automaticamente a cada inicialização
+- Dados de instâncias vêm da Evolution API (não armazenados)
 
 **Segurança:**
 - Container roda com usuário não-root (`nextjs:nodejs`)

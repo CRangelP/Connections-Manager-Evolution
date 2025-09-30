@@ -17,9 +17,8 @@ services:
       - NODE_ENV=production
       - PORT=3000
       - HOSTNAME=0.0.0.0
-    volumes:
-      # Persistir banco de dados SQLite
-      - sqlite_data:/app/prisma
+    # Sem volumes - banco SQLite será recriado a cada restart
+    # Seed do admin executado automaticamente com credenciais do .env
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/api/health"]
@@ -34,10 +33,6 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
-
-volumes:
-  sqlite_data:
-    driver: local
 
 networks:
   evolution-network:
