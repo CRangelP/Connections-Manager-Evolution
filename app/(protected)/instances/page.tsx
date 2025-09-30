@@ -31,11 +31,6 @@ export default function InstancesPage() {
   })
 
   const instances = data?.data || []
-  
-  // Log para debug - remover depois
-  if (instances.length > 0) {
-    console.log('Estrutura da primeira instância:', instances[0])
-  }
 
   const handleDeleteClick = (instanceName: string) => {
     setSelectedInstance(instanceName)
@@ -111,13 +106,10 @@ export default function InstancesPage() {
       ) : (
         <div id="instances-grid" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {instances.map((instance: any) => {
-            // Adapta estrutura da API - pode ser instance.instance ou diretamente instance
-            const inst = instance.instance || instance
-            const instanceName = inst.instanceName || inst.name || 'unknown'
-            
-            // Pega o estado de conexão
-            const connectionState = instance.connectionState || {}
-            const state = connectionState.state || inst.state || inst.status || 'close'
+            const instanceName = instance.name || 'Sem nome'
+            const connectionStatus = instance.connectionStatus || 'close'
+            const owner = instance.profileName || 'N/A'
+            const phone = instance.ownerJid ? instance.ownerJid.replace('@s.whatsapp.net', '') : 'N/A'
             
             return (
               <Card key={instanceName} id={`instance-card-${instanceName}`}>
@@ -128,16 +120,16 @@ export default function InstancesPage() {
                         {instanceName}
                       </CardTitle>
                     </div>
-                    {getStatusBadge(state)}
+                    {getStatusBadge(connectionStatus)}
                   </div>
                 </CardHeader>
                 <CardContent id={`instance-content-${instanceName}`}>
                   <div id={`instance-details-${instanceName}`} className="space-y-2 text-sm text-slate-600 mb-4">
                     <div id={`instance-owner-${instanceName}`}>
-                      <strong>Owner:</strong> {inst.owner || inst.profileName || 'N/A'}
+                      <strong>Owner:</strong> {owner}
                     </div>
                     <div id={`instance-phone-${instanceName}`}>
-                      <strong>Phone:</strong> {connectionState.instance?.wuid || inst.number || inst.phone || 'N/A'}
+                      <strong>Phone:</strong> {phone}
                     </div>
                   </div>
 
