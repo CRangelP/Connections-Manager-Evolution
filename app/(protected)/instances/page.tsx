@@ -38,21 +38,18 @@ export default function InstancesPage() {
   }
 
   const getStatusBadge = (state: string) => {
-    const statusMap: Record<string, { label: string; variant: 'default' | 'destructive' | 'secondary'; icon: any }> = {
-      open: { label: 'Conectada', variant: 'default', icon: CheckCircle2 },
-      connected: { label: 'Conectada', variant: 'default', icon: CheckCircle2 },
+    const statusMap: Record<string, { label: string; variant: 'default' | 'destructive' | 'secondary'; icon: any; className?: string }> = {
+      open: { label: 'Conectada', variant: 'default', icon: CheckCircle2, className: 'bg-green-500 hover:bg-green-600 text-white' },
+      connected: { label: 'Conectada', variant: 'default', icon: CheckCircle2, className: 'bg-green-500 hover:bg-green-600 text-white' },
       close: { label: 'Desconectada', variant: 'destructive', icon: XCircle },
-      closed: { label: 'Desconectada', variant: 'destructive', icon: XCircle },
-      disconnected: { label: 'Desconectada', variant: 'destructive', icon: XCircle },
       connecting: { label: 'Conectando', variant: 'secondary', icon: Clock },
     }
 
-    const status = statusMap[state?.toLowerCase()] || { label: state || 'Desconhecido', variant: 'secondary', icon: Clock }
-    const Icon = status.icon
+    const status = statusMap[state] || statusMap.close
 
     return (
-      <Badge id={`instance-status-badge-${state}`} variant={status.variant as any} className="flex items-center gap-1 w-fit">
-        <Icon id={`instance-status-icon-${state}`} className="h-3 w-3" />
+      <Badge id={`instance-badge-${state}`} variant={status.variant} className={`flex items-center gap-1 ${status.className || ''}`}>
+        <status.icon className="h-3 w-3" />
         {status.label}
       </Badge>
     )
