@@ -53,7 +53,7 @@ export function CreateInstanceDialog() {
 
   const mutation = useMutation({
     mutationFn: createInstance,
-    onSuccess: (response: any) => {
+    onSuccess: (response) => {
       queryClient.invalidateQueries({ queryKey: ['instances'] })
       
       // Armazena o nome da instância criada
