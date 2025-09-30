@@ -12,25 +12,9 @@ export function Header() {
     <header id="app-header" className="border-b bg-white">
       <div id="header-container" className="container mx-auto px-4 py-4 flex items-center justify-between">
         <div id="header-logo" className="flex items-center gap-6">
-          <Link id="header-logo-link" href="/dashboard" className="text-xl font-bold text-slate-900">
-            Evolution Dashboard
+          <Link id="header-logo-link" href="/instances" className="text-xl font-bold text-slate-900">
+            Conexões
           </Link>
-          <nav id="header-nav" className="flex gap-4">
-            <Link
-              id="header-nav-dashboard"
-              href="/dashboard"
-              className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
-            >
-              Dashboard
-            </Link>
-            <Link
-              id="header-nav-instances"
-              href="/instances"
-              className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
-            >
-              Instâncias
-            </Link>
-          </nav>
         </div>
 
         <div id="header-user-section" className="flex items-center gap-4">

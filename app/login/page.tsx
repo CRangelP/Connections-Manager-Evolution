@@ -40,7 +40,7 @@ export default function LoginPage() {
       if (result?.error) {
         setError('Credenciais inválidas')
       } else {
-        router.push('/dashboard')
+        router.push('/instances')
         router.refresh()
       }
     } catch (err) {
@@ -55,10 +55,10 @@ export default function LoginPage() {
       <Card id="login-card" className="w-full max-w-md">
         <CardHeader id="login-card-header" className="space-y-1">
           <CardTitle id="login-title" className="text-2xl font-bold text-center">
-            Evolution Dashboard
+            Conexões
           </CardTitle>
           <CardDescription id="login-description" className="text-center">
-            Entre com suas credenciais para acessar o painel
+            Gerenciamento de instâncias WhatsApp
           </CardDescription>
         </CardHeader>
         <CardContent id="login-card-content">

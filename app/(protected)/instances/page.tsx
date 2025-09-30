@@ -69,10 +69,10 @@ export default function InstancesPage() {
       <div id="instances-header" className="flex items-center justify-between">
         <div id="instances-header-text">
           <h1 id="instances-title" className="text-3xl font-bold text-slate-900">
-            Instâncias WhatsApp
+            Conexões WhatsApp
           </h1>
           <p id="instances-description" className="text-slate-600 mt-2">
-            Gerencie todas as suas instâncias da Evolution API
+            Gerencie suas conexões da Evolution API
           </p>
         </div>
         <CreateInstanceDialog />

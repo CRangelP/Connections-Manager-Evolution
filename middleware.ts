@@ -5,14 +5,14 @@ import type { NextRequest } from 'next/server'
 export default auth((req: NextRequest & { auth: any }) => {
   const isLoggedIn = !!req.auth
   const isOnLoginPage = req.nextUrl.pathname === '/login'
-  const isOnProtectedRoute = req.nextUrl.pathname.startsWith('/dashboard') || req.nextUrl.pathname.startsWith('/instances')
+  const isOnProtectedRoute = req.nextUrl.pathname.startsWith('/instances')
 
   if (!isLoggedIn && isOnProtectedRoute) {
     return NextResponse.redirect(new URL('/login', req.url))
   }
 
   if (isLoggedIn && isOnLoginPage) {
-    return NextResponse.redirect(new URL('/dashboard', req.url))
+    return NextResponse.redirect(new URL('/instances', req.url))
   }
 
   return NextResponse.next()

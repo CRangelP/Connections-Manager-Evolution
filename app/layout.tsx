@@ -9,8 +9,8 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'Evolution Dashboard',
-  description: 'Dashboard para gerenciamento de instâncias WhatsApp via Evolution API',
+  title: 'Conexões',
+  description: 'Gerenciamento de instâncias WhatsApp via Evolution API',
 }
 
 export default function RootLayout({
