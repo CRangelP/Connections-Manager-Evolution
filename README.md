@@ -8,7 +8,7 @@ Dashboard web moderno para gerenciamento de instâncias WhatsApp via **Evolution
 
 - **Framework**: Next.js 15 (App Router) + TypeScript
 - **Autenticação**: NextAuth.js (Credentials Provider)
-- **Banco de Dados**: PostgreSQL (Supabase) + Prisma ORM
+- **Banco de Dados**: SQLite + Prisma ORM
 - **UI**: TailwindCSS + shadcn/ui
 - **Formulários**: React Hook Form + Zod
 - **Estado**: TanStack Query (React Query)
@@ -46,18 +46,17 @@ Edite o `.env` com suas credenciais:
 NEXTAUTH_URL=http://localhost:3000
 NEXTAUTH_SECRET=your_secret_here
 
-# Database (Supabase)
-DATABASE_URL="postgresql://user:password@host:5432/database?schema=public"
-
 # Evolution API
-EVOLUTION_API_BASE_URL=https://sub.dominio.com.br
-EVOLUTION_API_TOKEN=2464890515844F241B926811E732A5857
+EVOLUTION_API_BASE_URL=https://api.evolution.com.br
+EVOLUTION_API_TOKEN=seu_token_aqui
 EVOLUTION_API_TIMEOUT_MS=15000
 
-# Admin User
+# Admin User (usado no primeiro acesso)
 ADMIN_EMAIL=admin@evolutiondash.com
 ADMIN_PASSWORD=Admin@123
 ```
+
+> **Nota:** O banco de dados SQLite é criado automaticamente em `prisma/dev.db` e não precisa de configuração adicional.
 
 ### 2. Instalação
 
