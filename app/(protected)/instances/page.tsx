@@ -10,6 +10,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert'
 import { CreateInstanceDialog } from '@/components/forms/create-instance-dialog'
 import { DeleteInstanceDialog } from '@/components/forms/delete-instance-dialog'
 import { Trash2, CheckCircle2, XCircle, Clock } from 'lucide-react'
+import { formatPhoneBrazil } from '@/lib/format-phone'
 
 async function fetchInstances() {
   const res = await fetch('/api/evolution/instances')
@@ -106,7 +107,8 @@ export default function InstancesPage() {
             const instanceName = instance.name || 'Sem nome'
             const connectionStatus = instance.connectionStatus || 'close'
             const owner = instance.profileName || 'N/A'
-            const phone = instance.ownerJid ? instance.ownerJid.replace('@s.whatsapp.net', '') : 'N/A'
+            const phoneRaw = instance.ownerJid ? instance.ownerJid.replace('@s.whatsapp.net', '') : ''
+            const phone = formatPhoneBrazil(phoneRaw)
             
             return (
               <Card key={instanceName} id={`instance-card-${instanceName}`}>
