@@ -36,6 +36,7 @@ async function createInstance(data: CreateInstanceInput) {
 
 export function CreateInstanceDialog() {
   const [open, setOpen] = useState(false)
+  const [qrCode, setQrCode] = useState<string | null>(null)
   const queryClient = useQueryClient()
 
   const {
@@ -49,11 +50,18 @@ export function CreateInstanceDialog() {
 
   const mutation = useMutation({
     mutationFn: createInstance,
-    onSuccess: () => {
+    onSuccess: (response: any) => {
       queryClient.invalidateQueries({ queryKey: ['instances'] })
-      toast.success('Instância criada com sucesso!')
-      reset()
-      setOpen(false)
+      
+      // Se tiver QR code, exibe
+      if (response?.qrcode && response.qrcode.length > 0 && response.qrcode[0].base64) {
+        setQrCode(response.qrcode[0].base64)
+        toast.success('Instância criada! Escaneie o QR Code')
+      } else {
+        toast.success('Instância criada com sucesso!')
+        reset()
+        setOpen(false)
+      }
     },
     onError: (error: Error) => {
       try {
@@ -68,7 +76,14 @@ export function CreateInstanceDialog() {
   })
 
   const onSubmit = (data: CreateInstanceInput) => {
+    setQrCode(null) // Limpa QR code anterior
     mutation.mutate(data)
+  }
+
+  const handleClose = () => {
+    setOpen(false)
+    setQrCode(null)
+    reset()
   }
 
   return (
@@ -79,14 +94,36 @@ export function CreateInstanceDialog() {
           Nova Instância
         </Button>
       </DialogTrigger>
-      <DialogContent id="create-instance-dialog">
+      <DialogContent id="create-instance-dialog" className="max-w-md">
         <DialogHeader id="create-instance-dialog-header">
-          <DialogTitle id="create-instance-dialog-title">Criar Nova Instância</DialogTitle>
+          <DialogTitle id="create-instance-dialog-title">
+            {qrCode ? 'Escaneie o QR Code' : 'Criar Nova Instância'}
+          </DialogTitle>
           <DialogDescription id="create-instance-dialog-description">
-            Informe o nome da instância que deseja criar
+            {qrCode 
+              ? 'Abra o WhatsApp e escaneie o código abaixo para conectar'
+              : 'Informe o nome da instância que deseja criar'}
           </DialogDescription>
         </DialogHeader>
-        <form id="create-instance-form" onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+
+        {qrCode ? (
+          <div id="qrcode-container" className="flex flex-col items-center justify-center gap-4 py-4">
+            <img 
+              id="qrcode-image"
+              src={qrCode} 
+              alt="QR Code" 
+              className="w-64 h-64 border-4 border-slate-200 rounded-lg"
+            />
+            <Button
+              id="qrcode-close-button"
+              onClick={handleClose}
+              className="w-full"
+            >
+              Fechar
+            </Button>
+          </div>
+        ) : (
+          <form id="create-instance-form" onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div id="create-instance-name-field" className="space-y-2">
             <Label id="create-instance-name-label" htmlFor="instanceName">
               Nome da Instância
@@ -122,6 +159,7 @@ export function CreateInstanceDialog() {
             </Button>
           </div>
         </form>
+        )}
       </DialogContent>
     </Dialog>
   )
