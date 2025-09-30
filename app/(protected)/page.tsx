@@ -9,8 +9,9 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { CreateInstanceDialog } from '@/components/forms/create-instance-dialog'
 import { DeleteInstanceDialog } from '@/components/forms/delete-instance-dialog'
-import { Trash2, CheckCircle2, XCircle, Clock, type LucideIcon } from 'lucide-react'
+import { Trash2, CheckCircle2, XCircle, Clock, RefreshCw, type LucideIcon } from 'lucide-react'
 import { formatPhoneBrazil } from '@/lib/format-phone'
+import { toast } from 'sonner'
 
 interface Instance {
   name: string
@@ -43,6 +44,27 @@ export default function InstancesPage() {
   const handleDeleteClick = (instanceName: string) => {
     setSelectedInstance(instanceName)
     setDeleteDialogOpen(true)
+  }
+
+  const handleReconnect = async (instanceName: string) => {
+    try {
+      const res = await fetch(`/api/evolution/instances/${instanceName}/restart`, {
+        method: 'POST',
+      })
+      
+      if (!res.ok) {
+        const error = await res.json()
+        throw new Error(error.message || 'Erro ao reconectar')
+      }
+      
+      toast.success('Reconexão iniciada! Aguarde o QR Code.')
+      // Atualiza a lista de instâncias
+      setTimeout(() => {
+        window.location.reload()
+      }, 2000)
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Erro ao reconectar')
+    }
   }
 
   const getStatusBadge = (state: string) => {
@@ -141,9 +163,18 @@ export default function InstancesPage() {
 
                   <div id={`instance-actions-${instanceName}`} className="flex gap-2">
                     <Button
+                      id={`instance-reconnect-button-${instanceName}`}
+                      variant="outline"
+                      className="flex-1"
+                      onClick={() => handleReconnect(instanceName)}
+                    >
+                      <RefreshCw id={`instance-reconnect-icon-${instanceName}`} className="mr-2 h-4 w-4" />
+                      Reconectar
+                    </Button>
+                    <Button
                       id={`instance-delete-button-${instanceName}`}
                       variant="destructive"
-                      className="w-full"
+                      className="flex-1"
                       onClick={() => handleDeleteClick(instanceName)}
                     >
                       <Trash2 id={`instance-delete-icon-${instanceName}`} className="mr-2 h-4 w-4" />

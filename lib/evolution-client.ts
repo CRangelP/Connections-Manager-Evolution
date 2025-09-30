@@ -67,6 +67,15 @@ class EvolutionAPIClient {
     }
   }
 
+  async restartInstance(instanceName: string) {
+    try {
+      const response = await this.client.put(`/instance/restart/${instanceName}`)
+      return response.data
+    } catch (error) {
+      this.handleError(error)
+    }
+  }
+
   private handleError(error: unknown): never {
     if (axios.isAxiosError(error)) {
       const axiosError = error as AxiosError<{ message?: string; error?: string; response?: unknown }>
