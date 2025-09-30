@@ -116,6 +116,10 @@ export default function InstancesPage() {
             const inst = instance.instance || instance
             const instanceName = inst.instanceName || inst.name || 'unknown'
             
+            // Pega o estado de conexão
+            const connectionState = instance.connectionState || {}
+            const state = connectionState.state || inst.state || inst.status || 'close'
+            
             return (
               <Card key={instanceName} id={`instance-card-${instanceName}`}>
                 <CardHeader id={`instance-header-${instanceName}`}>
@@ -128,7 +132,7 @@ export default function InstancesPage() {
                         {inst.serverUrl || 'Evolution API'}
                       </CardDescription>
                     </div>
-                    {getStatusBadge(inst.state || inst.status || 'close')}
+                    {getStatusBadge(state)}
                   </div>
                 </CardHeader>
                 <CardContent id={`instance-content-${instanceName}`}>

@@ -20,7 +20,35 @@ class EvolutionAPIClient {
 
   async listInstances() {
     try {
+      // Primeiro busca todas as instâncias
       const response = await this.client.get('/instance/fetchInstances')
+      const instances = response.data
+      
+      // Para cada instância, busca o status de conexão
+      if (Array.isArray(instances)) {
+        const instancesWithStatus = await Promise.all(
+          instances.map(async (inst: any) => {
+            try {
+              const instanceData = inst.instance || inst
+              const instanceName = instanceData.instanceName || instanceData.name
+              
+              if (instanceName) {
+                const statusResponse = await this.client.get(`/instance/connectionState/${instanceName}`)
+                return {
+                  ...inst,
+                  connectionState: statusResponse.data
+                }
+              }
+              return inst
+            } catch (error) {
+              // Se falhar ao buscar status, retorna instância sem status
+              return inst
+            }
+          })
+        )
+        return instancesWithStatus
+      }
+      
       return response.data
     } catch (error) {
       this.handleError(error)

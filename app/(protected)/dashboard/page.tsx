@@ -36,8 +36,9 @@ export default function DashboardPage() {
   }
   
   const connectedInstances = instances.filter((i: any) => {
+    const connectionState = i.connectionState || {}
     const inst = i.instance || i
-    const state = (inst.state || inst.status || '').toLowerCase()
+    const state = (connectionState.state || inst.state || inst.status || '').toLowerCase()
     return state === 'open' || state === 'connected'
   }).length
   const disconnectedInstances = totalInstances - connectedInstances
