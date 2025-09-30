@@ -28,18 +28,18 @@ Acesse: https://hub.docker.com/repository/create
 
 ```bash
 # Build para sua plataforma local
-docker build -t crangelp/connections-manager-evolution:1.5.0 .
-docker build -t crangelp/connections-manager-evolution:latest .
+docker build -t ia2ssuporte/connections-manager-evolution:1.5.0 .
+docker build -t ia2ssuporte/connections-manager-evolution:latest .
 ```
 
 ### 4. Push para Docker Hub
 
 ```bash
 # Push versão específica
-docker push crangelp/connections-manager-evolution:1.5.0
+docker push ia2ssuporte/connections-manager-evolution:1.5.0
 
 # Push latest
-docker push crangelp/connections-manager-evolution:latest
+docker push ia2ssuporte/connections-manager-evolution:latest
 ```
 
 ---
@@ -64,8 +64,8 @@ docker buildx inspect --bootstrap
 # Build para AMD64 e ARM64
 docker buildx build \
   --platform linux/amd64,linux/arm64 \
-  -t crangelp/connections-manager-evolution:1.5.0 \
-  -t crangelp/connections-manager-evolution:latest \
+  -t ia2ssuporte/connections-manager-evolution:1.5.0 \
+  -t ia2ssuporte/connections-manager-evolution:latest \
   --push \
   .
 ```
@@ -82,7 +82,7 @@ docker buildx build \
 ### Testar Pull
 
 ```bash
-docker pull crangelp/connections-manager-evolution:latest
+docker pull ia2ssuporte/connections-manager-evolution:latest
 ```
 
 ### Testar Execução
@@ -92,7 +92,7 @@ docker run -d \
   -p 3000:3000 \
   --name test-connections \
   --env-file .env \
-  crangelp/connections-manager-evolution:latest
+  ia2ssuporte/connections-manager-evolution:latest
 ```
 
 ### Verificar Logs
@@ -123,10 +123,10 @@ services:
     #   dockerfile: Dockerfile
     
     # Use imagem do Docker Hub
-    image: crangelp/connections-manager-evolution:latest
+    image: ia2ssuporte/connections-manager-evolution:latest
     
     # ou versão específica
-    # image: crangelp/connections-manager-evolution:1.5.0
+    # image: ia2ssuporte/connections-manager-evolution:1.5.0
 ```
 
 ---
@@ -168,7 +168,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: crangelp/connections-manager-evolution
+          images: ia2ssuporte/connections-manager-evolution
           tags: |
             type=ref,event=tag
             type=semver,pattern={{version}}
@@ -201,16 +201,16 @@ jobs:
 ## 📊 Verificar Imagem Publicada
 
 **Docker Hub:**
-https://hub.docker.com/r/crangelp/connections-manager-evolution
+https://hub.docker.com/r/ia2ssuporte/connections-manager-evolution
 
 **Informações da imagem:**
 ```bash
-docker images crangelp/connections-manager-evolution
+docker images ia2ssuporte/connections-manager-evolution
 ```
 
 **Inspeção detalhada:**
 ```bash
-docker inspect crangelp/connections-manager-evolution:latest
+docker inspect ia2ssuporte/connections-manager-evolution:latest
 ```
 
 ---
@@ -224,12 +224,12 @@ docker login
 # Build multi-platform e push
 docker buildx build \
   --platform linux/amd64,linux/arm64 \
-  -t crangelp/connections-manager-evolution:1.5.0 \
-  -t crangelp/connections-manager-evolution:latest \
+  -t ia2ssuporte/connections-manager-evolution:1.5.0 \
+  -t ia2ssuporte/connections-manager-evolution:latest \
   --push .
 
 # Verificar
-docker pull crangelp/connections-manager-evolution:latest
+docker pull ia2ssuporte/connections-manager-evolution:latest
 ```
 
 ---
@@ -257,8 +257,8 @@ Dashboard moderno para gerenciar instâncias WhatsApp via Evolution API.
 ## Quick Start
 
 ```bash
-docker pull crangelp/connections-manager-evolution:latest
-docker run -d -p 3000:3000 --env-file .env crangelp/connections-manager-evolution:latest
+docker pull ia2ssuporte/connections-manager-evolution:latest
+docker run -d -p 3000:3000 --env-file .env ia2ssuporte/connections-manager-evolution:latest
 ```
 
 ## Variáveis de Ambiente
@@ -277,4 +277,4 @@ GitHub: https://github.com/CRangelP/Connections-Manager-Evolution/issues
 
 ---
 
-**Link Docker Hub:** https://hub.docker.com/r/crangelp/connections-manager-evolution
+**Link Docker Hub:** https://hub.docker.com/r/ia2ssuporte/connections-manager-evolution

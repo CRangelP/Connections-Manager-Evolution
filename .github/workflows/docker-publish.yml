@@ -32,7 +32,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: crangelp/connections-manager-evolution
+          images: ia2ssuporte/connections-manager-evolution
           tags: |
             type=ref,event=tag
             type=semver,pattern={{version}}
@@ -55,5 +55,5 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-          repository: crangelp/connections-manager-evolution
+          repository: ia2ssuporte/connections-manager-evolution
           readme-filepath: ./README.md
