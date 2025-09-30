@@ -5,6 +5,27 @@ Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [1.3.0] - 2025-09-30
+
+### Adicionado
+- **Botão Reconectar** em cada instância
+  - Fluxo: logout → aguarda 1s → connect
+  - Exibe QR code em dialog após reconexão
+  - Ícone RefreshCw (seta circular)
+  - Cor verde escuro (bg-green-700)
+  - Toast informativo em cada etapa
+
+### Alterado
+- **URL simplificada**: `/instances` → `/` (raiz do site)
+- **Cor do botão Reconectar**: amarelo → verde escuro
+- **Middleware atualizado** para proteger rota raiz
+- **Links atualizados** (header e login)
+
+### Corrigido
+- **Formato de resposta do restart**: transforma em array igual create instance
+- **Exibição de QR code** na reconexão
+- **Cache do Next.js** ao mover rotas
+
 ## [1.1.0] - 2025-09-30
 
 ### Adicionado
