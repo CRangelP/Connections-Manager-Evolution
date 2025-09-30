@@ -63,19 +63,24 @@ export default function InstancesPage() {
       }
       
       const response = await res.json()
+      console.log('[Reconnect] Response:', response)
+      console.log('[Reconnect] Response.data:', response.data)
       
-      // Se retornar QR code, mostra no dialog
-      if (response.data && Array.isArray(response.data) && response.data[0]?.base64) {
+      // A resposta do /instance/connect retorna array direto
+      if (Array.isArray(response.data) && response.data.length > 0 && response.data[0].base64) {
+        console.log('[Reconnect] QR Code encontrado!')
         setReconnectQRCode(response.data[0].base64)
         setReconnectDialogOpen(true)
         toast.success('QR Code gerado! Escaneie para reconectar.')
       } else {
+        console.log('[Reconnect] QR Code NÃO encontrado, estrutura:', response)
         toast.success('Reconexão iniciada com sucesso!')
         setTimeout(() => {
           window.location.reload()
         }, 2000)
       }
     } catch (error) {
+      console.error('[Reconnect] Erro:', error)
       toast.error(error instanceof Error ? error.message : 'Erro ao reconectar')
     }
   }
@@ -178,7 +183,7 @@ export default function InstancesPage() {
                     <Button
                       id={`instance-reconnect-button-${instanceName}`}
                       variant="outline"
-                      className="flex-1"
+                      className="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white border-yellow-500"
                       onClick={() => handleReconnect(instanceName)}
                     >
                       <RefreshCw id={`instance-reconnect-icon-${instanceName}`} className="mr-2 h-4 w-4" />
