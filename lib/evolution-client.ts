@@ -33,6 +33,7 @@ class EvolutionAPIClient {
         instanceName,
         token: TOKEN,
         qrcode: true,
+        integration: 'WHATSAPP-BAILEYS',
       })
       return response.data
     } catch (error) {
