@@ -91,25 +91,52 @@ Acesse: [http://localhost:3000](http://localhost:3000)
 
 ## 🐳 Docker
 
+### Requisitos
+- Docker 20.10+
+- Docker Compose 2.0+
+
 ### Build e Run com Docker Compose
 
 ```bash
-# Build e iniciar
-docker-compose up --build
+# Build e iniciar em background
+docker-compose up -d --build
+
+# Ver logs
+docker-compose logs -f app
 
 # Parar
 docker-compose down
+
+# Parar e remover volumes (CUIDADO: apaga banco de dados)
+docker-compose down -v
 ```
 
 ### Build manual
 
 ```bash
 # Build da imagem
-docker build -t evolution-dashboard .
+docker build -t evolution-dashboard:1.3.0 .
 
-# Executar
-docker run -p 3000:3000 --env-file .env evolution-dashboard
+# Executar (necessário .env configurado)
+docker run -d \
+  -p 3000:3000 \
+  --name evolution-dashboard \
+  --env-file .env \
+  -v evolution-db:/app/prisma \
+  evolution-dashboard:1.3.0
+
+# Ver logs
+docker logs -f evolution-dashboard
+
+# Parar e remover
+docker stop evolution-dashboard && docker rm evolution-dashboard
 ```
+
+**Observações Docker:**
+- O banco SQLite é persistido em volume (`sqlite_data`)
+- Variáveis de ambiente devem estar no `.env`
+- Porta padrão: `3000`
+- Node.js 20 Alpine (imagem leve)
 
 ## 📁 Estrutura do Projeto
 
