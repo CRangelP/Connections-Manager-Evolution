@@ -14,12 +14,21 @@ export async function POST(
     }
 
     const { instanceName } = params
-    const data = await evolutionAPI.restartInstance(instanceName)
+    const qrCodeData = await evolutionAPI.restartInstance(instanceName)
     
-    console.log('[POST /restart] Data recebida:', data)
-    console.log('[POST /restart] Estrutura:', JSON.stringify(data).substring(0, 200))
+    console.log('[POST /restart] QR Code recebido:', qrCodeData)
     
-    return NextResponse.json({ data }, { status: 200 })
+    // Transforma em array se necessário (mesma lógica do create)
+    let qrCodeArray = null
+    if (Array.isArray(qrCodeData)) {
+      qrCodeArray = qrCodeData
+    } else if (qrCodeData && qrCodeData.base64) {
+      qrCodeArray = [qrCodeData]
+    }
+    
+    console.log('[POST /restart] QR Code array:', qrCodeArray)
+    
+    return NextResponse.json({ data: qrCodeArray }, { status: 200 })
   } catch (error) {
     console.error('[POST /api/evolution/instances/[instanceName]/restart]', error)
     
