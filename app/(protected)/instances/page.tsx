@@ -2,15 +2,22 @@
 
 import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { CreateInstanceDialog } from '@/components/forms/create-instance-dialog'
 import { DeleteInstanceDialog } from '@/components/forms/delete-instance-dialog'
-import { Trash2, CheckCircle2, XCircle, Clock } from 'lucide-react'
+import { Trash2, CheckCircle2, XCircle, Clock, type LucideIcon } from 'lucide-react'
 import { formatPhoneBrazil } from '@/lib/format-phone'
+
+interface Instance {
+  name: string
+  connectionStatus: string
+  profileName?: string
+  ownerJid?: string
+}
 
 async function fetchInstances() {
   const res = await fetch('/api/evolution/instances')
@@ -39,7 +46,7 @@ export default function InstancesPage() {
   }
 
   const getStatusBadge = (state: string) => {
-    const statusMap: Record<string, { label: string; variant: 'default' | 'destructive' | 'secondary'; icon: any; className?: string }> = {
+    const statusMap: Record<string, { label: string; variant: 'default' | 'destructive' | 'secondary'; icon: LucideIcon; className?: string }> = {
       open: { label: 'Conectada', variant: 'default', icon: CheckCircle2, className: 'bg-green-500 hover:bg-green-600 text-white' },
       connected: { label: 'Conectada', variant: 'default', icon: CheckCircle2, className: 'bg-green-500 hover:bg-green-600 text-white' },
       close: { label: 'Desconectada', variant: 'destructive', icon: XCircle },
@@ -103,7 +110,7 @@ export default function InstancesPage() {
         </Card>
       ) : (
         <div id="instances-grid" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {instances.map((instance: any) => {
+          {instances.map((instance: Instance) => {
             const instanceName = instance.name || 'Sem nome'
             const connectionStatus = instance.connectionStatus || 'close'
             const owner = instance.profileName || 'N/A'

@@ -43,7 +43,7 @@ export default function LoginPage() {
         router.push('/instances')
         router.refresh()
       }
-    } catch (err) {
+    } catch {
       setError('Ocorreu um erro ao fazer login')
     } finally {
       setIsLoading(false)
