@@ -124,8 +124,8 @@ export default function InstancesPage() {
                       <CardTitle id={`instance-title-${instanceName}`} className="text-lg">
                         {instanceName}
                       </CardTitle>
-                      <CardDescription id={`instance-desc-${instanceName}`} className="mt-1">
-                        {inst.instanceId || inst.id || 'N/A'}
+                      <CardDescription id={`instance-desc-${instanceName}`} className="mt-1 text-xs">
+                        {inst.serverUrl || 'Evolution API'}
                       </CardDescription>
                     </div>
                     {getStatusBadge(inst.state || inst.status || 'close')}
@@ -134,11 +134,13 @@ export default function InstancesPage() {
                 <CardContent id={`instance-content-${instanceName}`}>
                   <div id={`instance-details-${instanceName}`} className="space-y-2 text-sm text-slate-600 mb-4">
                     <div id={`instance-owner-${instanceName}`}>
-                      <strong>Owner:</strong> {inst.owner || 'N/A'}
+                      <strong>Owner:</strong> {inst.owner || inst.profileName || 'N/A'}
                     </div>
-                    <div id={`instance-number-${instanceName}`}>
-                      <strong>Número:</strong> {inst.profilePictureUrl || inst.number || 'N/A'}
-                    </div>
+                    {inst.profilePictureUrl && (
+                      <div id={`instance-picture-${instanceName}`}>
+                        <strong>Profile:</strong> Configurado
+                      </div>
+                    )}
                   </div>
 
                   <div id={`instance-actions-${instanceName}`} className="flex gap-2">
