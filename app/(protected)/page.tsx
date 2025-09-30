@@ -35,6 +35,7 @@ export default function InstancesPage() {
   const [selectedInstance, setSelectedInstance] = useState<string | null>(null)
   const [reconnectQRCode, setReconnectQRCode] = useState<string | null>(null)
   const [reconnectDialogOpen, setReconnectDialogOpen] = useState(false)
+  const [reconnectInstanceName, setReconnectInstanceName] = useState<string | null>(null)
 
   const { data, isLoading, error } = useQuery({
     queryKey: ['instances'],
@@ -67,6 +68,7 @@ export default function InstancesPage() {
       // A resposta do /instance/connect retorna array direto
       if (Array.isArray(response.data) && response.data.length > 0 && response.data[0].base64) {
         setReconnectQRCode(response.data[0].base64)
+        setReconnectInstanceName(instanceName)
         setReconnectDialogOpen(true)
         toast.success('QR Code gerado! Escaneie para reconectar.')
       } else {
@@ -229,9 +231,24 @@ export default function InstancesPage() {
               />
               <Button
                 id="reconnect-qr-close"
-                onClick={() => {
+                onClick={async () => {
+                  // Configura Chatwoot antes de fechar
+                  if (reconnectInstanceName) {
+                    try {
+                      toast.info('Configurando Chatwoot...')
+                      await fetch(`/api/chatwoot/set/${reconnectInstanceName}`, {
+                        method: 'POST',
+                      })
+                      toast.success('Chatwoot configurado com sucesso!')
+                    } catch (error) {
+                      console.error('Erro ao configurar Chatwoot:', error)
+                      toast.error('Erro ao configurar Chatwoot')
+                    }
+                  }
+                  
                   setReconnectDialogOpen(false)
                   setReconnectQRCode(null)
+                  setReconnectInstanceName(null)
                   window.location.reload()
                 }}
                 className="w-full"

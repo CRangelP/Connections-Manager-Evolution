@@ -37,6 +37,7 @@ async function createInstance(data: CreateInstanceInput) {
 export function CreateInstanceDialog() {
   const [open, setOpen] = useState(false)
   const [qrCode, setQrCode] = useState<string | null>(null)
+  const [instanceName, setInstanceName] = useState<string | null>(null)
   const queryClient = useQueryClient()
 
 
@@ -54,9 +55,13 @@ export function CreateInstanceDialog() {
     onSuccess: (response: any) => {
       queryClient.invalidateQueries({ queryKey: ['instances'] })
       
+      // Armazena o nome da instância criada
+      const createdInstanceName = response?.data?.instance?.instanceName
+      
       // Se tiver QR code, exibe
       if (response?.qrcode && response.qrcode.length > 0 && response.qrcode[0].base64) {
         setQrCode(response.qrcode[0].base64)
+        setInstanceName(createdInstanceName)
         toast.success('Instância criada! Escaneie o QR Code')
       } else {
         toast.success('Instância criada com sucesso!')
@@ -81,9 +86,24 @@ export function CreateInstanceDialog() {
     mutation.mutate(data)
   }
 
-  const handleClose = () => {
+  const handleClose = async () => {
+    // Se houver instância criada, configura o Chatwoot
+    if (instanceName) {
+      try {
+        toast.info('Configurando Chatwoot...')
+        await fetch(`/api/chatwoot/set/${instanceName}`, {
+          method: 'POST',
+        })
+        toast.success('Chatwoot configurado com sucesso!')
+      } catch (error) {
+        console.error('Erro ao configurar Chatwoot:', error)
+        toast.error('Erro ao configurar Chatwoot')
+      }
+    }
+    
     setOpen(false)
     setQrCode(null)
+    setInstanceName(null)
     reset()
   }
 

@@ -83,6 +83,38 @@ class EvolutionAPIClient {
     }
   }
 
+  async setChatwoot(instanceName: string, config: {
+    accountId: string
+    token: string
+    url: string
+    nameInbox: string
+  }) {
+    try {
+      const response = await this.client.post(`/chatwoot/set/${instanceName}`, {
+        enabled: true,
+        accountId: config.accountId,
+        token: config.token,
+        url: config.url,
+        signMsg: false,
+        reopenConversation: false,
+        conversationPending: true,
+        nameInbox: config.nameInbox,
+        mergeBrazilContacts: true,
+        importContacts: true,
+        importMessages: true,
+        daysLimitImportMessages: 2,
+        signDelimiter: '\n',
+        autoCreate: true,
+        organization: '',
+        logo: '',
+        ignoreJids: ['@g.us']
+      })
+      return response.data
+    } catch (error) {
+      this.handleError(error)
+    }
+  }
+
   private handleError(error: unknown): never {
     if (axios.isAxiosError(error)) {
       const axiosError = error as AxiosError<{ message?: string; error?: string; response?: unknown }>
