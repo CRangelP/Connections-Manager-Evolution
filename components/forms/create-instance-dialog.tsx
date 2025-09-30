@@ -125,11 +125,14 @@ export function CreateInstanceDialog() {
 
         {qrCode ? (
           <div id="qrcode-container" className="flex flex-col items-center justify-center gap-4 py-4">
+            <p className="text-sm text-green-600 mb-2">QR Code carregado!</p>
             <img 
               id="qrcode-image"
               src={qrCode} 
               alt="QR Code" 
               className="w-64 h-64 border-4 border-slate-200 rounded-lg"
+              onLoad={() => console.log('[QR Code IMG] Imagem carregada com sucesso!')}
+              onError={() => console.error('[QR Code IMG] Erro ao carregar imagem')}
             />
             <Button
               id="qrcode-close-button"
