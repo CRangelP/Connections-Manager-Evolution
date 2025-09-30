@@ -55,7 +55,7 @@ export default function LoginPage() {
       <Card id="login-card" className="w-full max-w-md">
         <CardHeader id="login-card-header" className="space-y-1">
           <CardTitle id="login-title" className="text-2xl font-bold text-center">
-            Conexões
+            Painel Principal
           </CardTitle>
           <CardDescription id="login-description" className="text-center">
             Gerenciamento de instâncias WhatsApp

@@ -14,7 +14,7 @@ export function Header() {
       <div id="header-container" className="container mx-auto px-4 py-4 flex items-center justify-between">
         <div id="header-logo" className="flex items-center gap-6">
           <Link id="header-logo-link" href="/instances" className="text-xl font-bold text-slate-900 dark:text-white">
-            Conexões
+            Painel Principal
           </Link>
         </div>
 
