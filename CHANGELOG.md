@@ -5,6 +5,30 @@ Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [1.5.0] - 2025-09-30
+
+### Adicionado
+- **Integração automática com Chatwoot**
+  - Configura Chatwoot ao fechar QR code (criar/reconectar)
+  - Endpoint POST `/api/chatwoot/set/{instanceName}`
+  - Método `setChatwoot()` no evolution-client
+  - Variáveis de ambiente: `CHATWOOT_ACCOUNT_ID`, `CHATWOOT_TOKEN`, `CHATWOOT_URL`
+  - `nameInbox` usa automaticamente o nome da instância
+  - Toast informativo durante configuração
+
+### Alterado
+- **Configuração Chatwoot otimizada**:
+  - `reopenConversation: true` (reabrir conversas)
+  - `conversationPending: false` (não criar como pendente)
+  - `importContacts: false` (não importar contatos)
+  - `importMessages: false` (não importar mensagens)
+  - `mergeBrazilContacts: true` (mesclar contatos brasileiros)
+  - `ignoreJids: ["@g.us"]` (ignorar grupos)
+
+### Corrigido
+- **Next.js 15 `params` async**: Corrige warnings sobre `params` não await
+- **API routes atualizadas** para async params
+
 ## [1.4.0] - 2025-09-30
 
 ### Removido

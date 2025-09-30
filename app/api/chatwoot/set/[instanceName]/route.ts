@@ -8,7 +8,7 @@ const CHATWOOT_URL = process.env.CHATWOOT_URL || ''
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { instanceName: string } }
+  { params }: { params: Promise<{ instanceName: string }> }
 ) {
   try {
     const session = await auth()
@@ -17,7 +17,7 @@ export async function POST(
       return NextResponse.json({ message: 'Não autorizado' }, { status: 401 })
     }
 
-    const { instanceName } = params
+    const { instanceName } = await params
     
     // Configura Chatwoot usando o nome da instância como nameInbox
     const data = await evolutionAPI.setChatwoot(instanceName, {

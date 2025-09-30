@@ -1,6 +1,6 @@
 # 🚀 Painel Principal
 
-**Versão 1.4.0** 🧹
+**Versão 1.5.0** 💬
 
 Dashboard web moderno para gerenciamento de instâncias WhatsApp via **Evolution API** (v2.3.4).
 
@@ -115,7 +115,7 @@ docker-compose down -v
 
 ```bash
 # Build da imagem
-docker build -t evolution-dashboard:1.4.0 .
+docker build -t evolution-dashboard:1.5.0 .
 
 # Executar (necessário .env configurado)
 docker run -d \
@@ -123,7 +123,7 @@ docker run -d \
   --name evolution-dashboard \
   --env-file .env \
   -v evolution-db:/app/prisma \
-  evolution-dashboard:1.4.0
+  evolution-dashboard:1.5.0
 
 # Ver logs
 docker logs -f evolution-dashboard

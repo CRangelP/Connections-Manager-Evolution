@@ -4,7 +4,7 @@ import { evolutionAPI } from '@/lib/evolution-client'
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { instanceName: string } }
+  { params }: { params: Promise<{ instanceName: string }> }
 ) {
   try {
     const session = await auth()
@@ -13,7 +13,7 @@ export async function POST(
       return NextResponse.json({ message: 'Não autorizado' }, { status: 401 })
     }
 
-    const { instanceName } = params
+    const { instanceName } = await params
     const qrCodeData = await evolutionAPI.restartInstance(instanceName)
     
     // Transforma em array se necessário (mesma lógica do create)
