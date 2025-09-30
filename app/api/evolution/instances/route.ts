@@ -51,25 +51,32 @@ export async function POST(request: NextRequest) {
     const instanceData = await evolutionAPI.createInstance(validatedData.instanceName)
     console.log('[POST /api/evolution/instances] Instância criada:', instanceData)
     
-    // Aguarda 2 segundos para o QR code ser gerado
-    await new Promise(resolve => setTimeout(resolve, 2000))
-    
-    // Busca o QR code logo após criar
-    let qrCodeData = null
-    try {
-      qrCodeData = await evolutionAPI.getQRCode(validatedData.instanceName)
-      console.log('[POST /api/evolution/instances] QR Code recebido:', qrCodeData ? 'SIM' : 'NÃO')
-      if (qrCodeData) {
-        console.log('[POST /api/evolution/instances] QR Code estrutura:', JSON.stringify(qrCodeData).substring(0, 200))
+    // O QR code já vem na resposta da criação da instância
+    let qrCodeArray = null
+    if (instanceData?.instance?.qrcode?.base64) {
+      qrCodeArray = [{
+        base64: instanceData.instance.qrcode.base64,
+        code: instanceData.instance.qrcode.code
+      }]
+      console.log('[POST /api/evolution/instances] QR Code encontrado na instância!')
+    } else {
+      console.log('[POST /api/evolution/instances] QR Code NÃO encontrado, tentando buscar...')
+      
+      // Aguarda 2 segundos e tenta buscar
+      await new Promise(resolve => setTimeout(resolve, 2000))
+      
+      try {
+        const qrCodeData = await evolutionAPI.getQRCode(validatedData.instanceName)
+        console.log('[POST /api/evolution/instances] QR Code recebido da API')
+        qrCodeArray = Array.isArray(qrCodeData) ? qrCodeData : [qrCodeData]
+      } catch (error) {
+        console.warn('[POST /api/evolution/instances] Erro ao buscar QR code:', error)
       }
-    } catch (error) {
-      console.warn('[POST /api/evolution/instances] Erro ao buscar QR code:', error)
-      // Não falha se o QR code não estiver disponível ainda
     }
 
     return NextResponse.json({ 
       data: instanceData,
-      qrcode: qrCodeData 
+      qrcode: qrCodeArray 
     }, { status: 201 })
   } catch (error) {
     console.error('[POST /api/evolution/instances]', error)
