@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosError } from 'axios'
 
-const BASE_URL = process.env.EVOLUTION_API_BASE_URL || 'https://api.primestratus.com.br'
+const BASE_URL = process.env.EVOLUTION_API_BASE_URL || ''
 const TOKEN = process.env.EVOLUTION_API_TOKEN || ''
 const TIMEOUT = parseInt(process.env.EVOLUTION_API_TIMEOUT_MS || '15000', 10)
 
