@@ -69,7 +69,14 @@ class EvolutionAPIClient {
 
   async restartInstance(instanceName: string) {
     try {
-      const response = await this.client.put(`/instance/restart/${instanceName}`)
+      // 1. Faz logout da instância
+      await this.client.delete(`/instance/logout/${instanceName}`)
+      
+      // 2. Aguarda 1 segundo
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      
+      // 3. Reconecta (busca novo QR code)
+      const response = await this.client.get(`/instance/connect/${instanceName}`)
       return response.data
     } catch (error) {
       this.handleError(error)

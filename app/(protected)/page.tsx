@@ -9,6 +9,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { CreateInstanceDialog } from '@/components/forms/create-instance-dialog'
 import { DeleteInstanceDialog } from '@/components/forms/delete-instance-dialog'
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Trash2, CheckCircle2, XCircle, Clock, RefreshCw, type LucideIcon } from 'lucide-react'
 import { formatPhoneBrazil } from '@/lib/format-phone'
 import { toast } from 'sonner'
@@ -32,6 +33,8 @@ async function fetchInstances() {
 export default function InstancesPage() {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [selectedInstance, setSelectedInstance] = useState<string | null>(null)
+  const [reconnectQRCode, setReconnectQRCode] = useState<string | null>(null)
+  const [reconnectDialogOpen, setReconnectDialogOpen] = useState(false)
 
   const { data, isLoading, error } = useQuery({
     queryKey: ['instances'],
@@ -48,6 +51,8 @@ export default function InstancesPage() {
 
   const handleReconnect = async (instanceName: string) => {
     try {
+      toast.info('Desconectando instância...')
+      
       const res = await fetch(`/api/evolution/instances/${instanceName}/restart`, {
         method: 'POST',
       })
@@ -57,11 +62,19 @@ export default function InstancesPage() {
         throw new Error(error.message || 'Erro ao reconectar')
       }
       
-      toast.success('Reconexão iniciada! Aguarde o QR Code.')
-      // Atualiza a lista de instâncias
-      setTimeout(() => {
-        window.location.reload()
-      }, 2000)
+      const response = await res.json()
+      
+      // Se retornar QR code, mostra no dialog
+      if (response.data && Array.isArray(response.data) && response.data[0]?.base64) {
+        setReconnectQRCode(response.data[0].base64)
+        setReconnectDialogOpen(true)
+        toast.success('QR Code gerado! Escaneie para reconectar.')
+      } else {
+        toast.success('Reconexão iniciada com sucesso!')
+        setTimeout(() => {
+          window.location.reload()
+        }, 2000)
+      }
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Erro ao reconectar')
     }
@@ -195,6 +208,40 @@ export default function InstancesPage() {
           onOpenChange={setDeleteDialogOpen}
         />
       )}
+
+      {/* Dialog de QR Code de Reconexão */}
+      <Dialog open={reconnectDialogOpen} onOpenChange={setReconnectDialogOpen}>
+        <DialogContent id="reconnect-qr-dialog" className="max-w-md">
+          <DialogHeader id="reconnect-qr-header">
+            <DialogTitle id="reconnect-qr-title">Escaneie o QR Code</DialogTitle>
+            <DialogDescription id="reconnect-qr-description">
+              Abra o WhatsApp e escaneie o código abaixo para reconectar
+            </DialogDescription>
+          </DialogHeader>
+          
+          {reconnectQRCode && (
+            <div id="reconnect-qr-container" className="flex flex-col items-center justify-center gap-4 py-4">
+              <img 
+                id="reconnect-qr-image"
+                src={reconnectQRCode} 
+                alt="QR Code Reconexão" 
+                className="w-64 h-64 border-4 border-slate-200 rounded-lg"
+              />
+              <Button
+                id="reconnect-qr-close"
+                onClick={() => {
+                  setReconnectDialogOpen(false)
+                  setReconnectQRCode(null)
+                  window.location.reload()
+                }}
+                className="w-full"
+              >
+                Fechar
+              </Button>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
