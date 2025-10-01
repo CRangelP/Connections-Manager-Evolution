@@ -35,8 +35,8 @@ services:
       - ADMIN_PASSWORD=Admin@123
       
       # Chatwoot Integration
-      - CHATWOOT_ACCOUNT_ID=2
-      - CHATWOOT_TOKEN=19sR3u8QFjwSba8RzWLgBa93
+      - CHATWOOT_ACCOUNT_ID=your_chatwoot_account_id_here
+      - CHATWOOT_TOKEN=your_chatwoot_token_here
       - CHATWOOT_URL=https://your.chatwoot.url
     
     # Configura o Modo de Deploy da Aplicação
