@@ -47,14 +47,8 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 
-# Copiar Prisma e dependências completas para seed
-COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
-COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
-COPY --from=builder /app/node_modules/prisma ./node_modules/prisma
-COPY --from=builder /app/node_modules/tsx ./node_modules/tsx
-COPY --from=builder /app/node_modules/effect ./node_modules/effect
-COPY --from=builder /app/node_modules/.bin ./node_modules/.bin
-COPY --from=builder /app/node_modules/bcryptjs ./node_modules/bcryptjs
+# Copiar node_modules completo para seed (Prisma + tsx + dependências)
+COPY --from=builder /app/node_modules ./node_modules
 
 # Copiar schema do Prisma e seed para runtime
 COPY --from=builder /app/prisma ./prisma
