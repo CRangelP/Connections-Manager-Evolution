@@ -22,11 +22,11 @@ services:
       - HOSTNAME=0.0.0.0
       
       # NextAuth Configuration
-      - NEXTAUTH_URL=https://app.ia2s.com.br
+      - NEXTAUTH_URL=https://your.domain.com
       - NEXTAUTH_SECRET=your_nextauth_secret_minimum_32_characters_long_here
       
       # Evolution API Configuration
-      - EVOLUTION_API_BASE_URL=https://api.primestratus.com.br
+      - EVOLUTION_API_BASE_URL=https://your.evolution.api.url
       - EVOLUTION_API_TOKEN=your_evolution_api_token_here
       - EVOLUTION_API_TIMEOUT_MS=15000
       
@@ -37,7 +37,7 @@ services:
       # Chatwoot Integration
       - CHATWOOT_ACCOUNT_ID=2
       - CHATWOOT_TOKEN=19sR3u8QFjwSba8RzWLgBa93
-      - CHATWOOT_URL=https://chat-api.primestratus.com.br
+      - CHATWOOT_URL=https://your.chatwoot.url
     
     # Configura o Modo de Deploy da Aplicação
     deploy:
@@ -72,7 +72,7 @@ services:
         - traefik.enable=true
         
         # Define o roteamento
-        - traefik.http.routers.connections-manager.rule=Host(`app.ia2s.com.br`)
+        - traefik.http.routers.connections-manager.rule=Host(`your.domain.com`)
         
         # Redireciona para HTTPS
         - traefik.http.routers.connections-manager.entrypoints=websecure
