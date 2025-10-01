@@ -5,11 +5,11 @@ echo "🚀 Iniciando Connections Manager Evolution..."
 
 # Criar banco SQLite e aplicar schema
 echo "📦 Criando banco de dados..."
-npx prisma db push --skip-generate
+node_modules/.bin/prisma db push --skip-generate
 
-# Executar seed (criar usuário admin)
+# Executar seed manualmente (criar usuário admin)
 echo "🌱 Executando seed (criando admin)..."
-npx prisma db seed
+node_modules/.bin/tsx prisma/seed.ts
 
 echo "✅ Banco de dados pronto!"
 echo "👤 Admin criado com credenciais do .env"
