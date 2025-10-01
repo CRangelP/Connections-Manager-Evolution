@@ -1,0 +1,118 @@
+version: "3.8"
+
+# Definição dos Serviços
+services:
+  # Connections Manager Evolution
+  connections-manager:
+    # Imagem do Docker Hub
+    image: ia2ssuporte/connections-manager-evolution:latest
+    
+    # Define o hostname do container
+    hostname: "{{.Service.Name}}.{{.Task.Slot}}"
+    
+    # Configura a rede do serviço
+    networks:
+      - ia2s
+    
+    # Configura as variáveis de ambiente
+    environment:
+      # Node Environment
+      - NODE_ENV=production
+      - PORT=3000
+      - HOSTNAME=0.0.0.0
+      
+      # NextAuth Configuration
+      - NEXTAUTH_URL=https://app.ia2s.com.br
+      - NEXTAUTH_SECRET=your_nextauth_secret_minimum_32_characters_long_here
+      
+      # Evolution API Configuration
+      - EVOLUTION_API_BASE_URL=https://api.primestratus.com.br
+      - EVOLUTION_API_TOKEN=your_evolution_api_token_here
+      - EVOLUTION_API_TIMEOUT_MS=15000
+      
+      # Admin User Credentials
+      - ADMIN_EMAIL=admin@evolutiondash.com
+      - ADMIN_PASSWORD=Admin@123
+      
+      # Chatwoot Integration
+      - CHATWOOT_ACCOUNT_ID=2
+      - CHATWOOT_TOKEN=19sR3u8QFjwSba8RzWLgBa93
+      - CHATWOOT_URL=https://chat-api.primestratus.com.br
+    
+    # Configura o Modo de Deploy da Aplicação
+    deploy:
+      # Será executado no modo de replicação
+      mode: replicated
+      
+      # Apenas uma instância (stateless)
+      replicas: 1
+      
+      # Configura o local de execução
+      placement:
+        constraints:
+          # Pode rodar no Manager
+          - node.role == manager
+          # - node.hostname == worker1
+          # - node.labels.app == http
+      
+      # Limitação de Recursos
+      resources:
+        limits:
+          # Define a quantidade de CPU
+          cpus: "1"
+          # Define a quantidade de RAM
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 256M
+      
+      # Define os Labels do Serviço (Traefik)
+      labels:
+        # Habilita Traefik
+        - traefik.enable=true
+        
+        # Define o roteamento
+        - traefik.http.routers.connections-manager.rule=Host(`app.ia2s.com.br`)
+        
+        # Redireciona para HTTPS
+        - traefik.http.routers.connections-manager.entrypoints=websecure
+        
+        # Define o certificado SSL
+        - traefik.http.routers.connections-manager.tls.certresolver=letsencryptresolver
+        
+        # Define o serviço
+        - traefik.http.routers.connections-manager.service=connections-manager
+        
+        # Define a porta do serviço
+        - traefik.http.services.connections-manager.loadbalancer.server.port=3000
+        
+        # Define o uso do Host Header
+        - traefik.http.services.connections-manager.loadbalancer.passHostHeader=true
+        
+        # Health check
+        - traefik.http.services.connections-manager.loadbalancer.healthcheck.path=/api/health
+        - traefik.http.services.connections-manager.loadbalancer.healthcheck.interval=30s
+      
+      # Configura o modo de atualização do serviço
+      update_config:
+        # Atualiza um container por vez
+        parallelism: 1
+        # Tempo de espera entre atualizações
+        delay: 30s
+        # Inicia novo container antes de parar o antigo
+        order: start-first
+        # Rollback em caso de falha
+        failure_action: rollback
+      
+      # Configura restart policy
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+
+# Redes
+networks:
+  ia2s:
+    name: ia2s
+    external: true
