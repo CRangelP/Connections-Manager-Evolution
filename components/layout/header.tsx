@@ -30,7 +30,7 @@ export function Header() {
             id="header-logout-button"
             variant="outline"
             size="sm"
-            onClick={() => signOut({ callbackUrl: '/login' })}
+            onClick={() => signOut({ callbackUrl: '/login', redirect: true })}
           >
             <LogOut id="header-logout-icon" className="mr-2 h-4 w-4" />
             Sair
