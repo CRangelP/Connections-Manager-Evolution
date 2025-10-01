@@ -46,12 +46,11 @@ RUN mkdir -p /app/prisma && chown -R nextjs:nodejs /app/prisma
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
-COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
 
-# Copiar banco de dados SQLite se existir
-COPY --from=builder --chown=nextjs:nodejs /app/prisma/dev.db* ./prisma/ 2>/dev/null || true
+# Copiar schema do Prisma para migrations/seeds no runtime
+COPY --from=builder /app/prisma ./prisma
 
 USER nextjs
 
